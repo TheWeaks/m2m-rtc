@@ -1,7 +1,3 @@
-export class Main {
-    constructor () {
-        console.log('hello, world');
-    }
-}
+import './index.css'
 
-let m = new Main();
+console.log('hello, world');

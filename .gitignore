@@ -1,7 +1,5 @@
 /node_modules
-<<<<<<< HEAD
-npm-debug.log.*
-=======
+/dist
 /.gitignore
 ### VisualStudioCode template
 .vscode/*
@@ -148,4 +146,3 @@ fabric.properties
 *.iml
 out
 gen
->>>>>>> 84366ab5f4e9f6e72e9eef2d0b048d9537c65003
