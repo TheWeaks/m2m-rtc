@@ -24,8 +24,6 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
-    "install": "^0.10.1",
-    "kurento-utils": "^6.6.2",
-    "npm": "^5.3.0"
+    "kurento-utils": "^6.6.2"
   }
 }
