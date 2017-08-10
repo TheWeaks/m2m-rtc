@@ -1,8 +1,6 @@
 import './main.css'
-import './section-left.css'
-import './section-right.css'
-import './section-left'
-import './section-right'
+import './section.css'
+import './section'
 
 // console.log('hello, world');
 $(document).ready(() => {
