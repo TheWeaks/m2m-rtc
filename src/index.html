@@ -11,7 +11,7 @@
 	<section class="section-left">
 		<div class="stream-container">
 			<div class="stream-main stream-ID">
-				<video></video>
+				<video autoplay id="main-stream"></video>
 				<div id="icons" class="">
 					<svg id="mute-audio" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="-10 -10 68 68">
 						<title>title</title>
@@ -57,18 +57,20 @@
 		</div>
 	</section>
 	<section class="section-right">
-		<div class="chat-content">
-
-		</div>
 		<div class="chat-toolbar" role="toolbar">
 			<button class="toolbar-button"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
 			<button class="toolbar-button"><i class="fa fa-file-archive-o" aria-hidden="true"></i></button>
 		</div>
+		<div class="chat-content">
+			<ul class="chat-lines">
+				<li class="chat-line"></li>
+			</ul>
+		</div>
 		<div class="chat-textarea-container">
-			<textarea class="chat-textarea"></textarea>
+			<textarea class="chat-textarea" placeholder="请输入..."></textarea>
 			<div class="send-button-group">
 				<button class="send-button">发送</button>
-				<button class="send-button">清除</button>
+				<button class="send-button" type="reset">清除</button>
 			</div>
 		</div>
 	</section>

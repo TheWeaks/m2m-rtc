@@ -1,19 +1,46 @@
+.stream-container {
+    width  : 100%;
+    height : 77.5%;
+}
+
+.stream-main {
+    width  : 100%;
+    height : 100%;
+}
+
+#main-stream {
+    width  : 100%;
+    height : 100%;
+}
+
 /*====================================
 
     The right section
 
 =====================================*/
 .chat-content {
-    width  : 100%;
-    height : 72.5%;
+    outline : 1px solid #cccccc;
+    width   : 100%;
+    height  : 72.5%;
+}
+
+.chat-lines {
+    list-style : none;
+}
+
+.chat-line {
+    text-align : -webkit-match-parent;
+    display    : list-item;
+    list-style : none unset none;
 }
 
 /*---------------↑聊天信息栏↑-------------------*/
 
 .chat-toolbar {
-    width      : 100%;
-    height     : 5%;
-    box-shadow : 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    outline : 1px solid #cccccc;
+    width   : 100%;
+    height  : 5%;
+
 }
 
 .chat-toolbar > .toolbar-button {
@@ -25,7 +52,6 @@
     width               : 50%;
     display             : inline-block;
     padding             : 6px 12px;
-    margin-bottom       : 0;
     font-size           : 14px;
     font-weight         : normal;
     line-height         : 1.42857143;
@@ -39,46 +65,84 @@
     -moz-user-select    : none;
     -ms-user-select     : none;
     user-select         : none;
-    background-image    : none;
     border              : 1px solid transparent;
+    background          : transparent none;
 }
 
 .toolbar-button > i {
     font-size : 20px;
 }
 
+.toolbar-button:focus,
+.toolbar-button:active:focus,
+.toolbar-button.active:focus,
+.toolbar-button.focus,
+.toolbar-button:active.focus,
+.toolbar-button.active.focus {
+    color            : #fff;
+    background-color : #286090;
+    border-color     : #122b40;
+    outline          : 5px auto -webkit-focus-ring-color;
+    outline-offset   : -2px;
+}
+
+.toolbar-button:hover,
+.toolbar-button:focus,
+.toolbar-button.focus {
+    color            : #fff;
+    background-color : #286090;
+    border-color     : #204d74;
+    text-decoration  : none;
+}
+
+.toolbar-button:active,
+.toolbar-button.active {
+    color              : #fff;
+    border-color       : #204d74;
+    background         : #286090 none;
+    outline            : 0;
+    -webkit-box-shadow : inset 0 3px 5px rgba(0, 0, 0, .125);
+    box-shadow         : inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
 /*---------------↑工具栏↑-----------------------*/
 
 .chat-textarea-container {
-    height : 22.5%;
-
+    outline : 1px solid #cccccc;
+    height  : 22.5%;
 }
 
 .chat-textarea {
+    display            : block;
+    overflow           : auto;
     width              : 100%;
     height             : 70%;
-    display            : inline-block;
-    overflow           : auto;
+    font-size          : large;
+    padding            : 5px;
+    border             : none;
+    border-top         : 1px solid #cccccc;
+    border-bottom      : 1px solid #cccccc;
+    outline            : 1px solid #ccc;
     box-sizing         : border-box;
-    border             : 1px solid #a1a1a1;
-    -webkit-box-shadow : inset 0 1px 1px rgba(0, 0, 0, .075);
-    box-shadow         : inset 0 1px 1px rgba(0, 0, 0, .075);
-    -webkit-transition : border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-    -o-transition      : border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    transition         : border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    box-shadow         : inset 0 2px 2px rgba(0, 0, 0, .075);
+    -webkit-box-shadow : inset 0 2px 2px rgba(0, 0, 0, .075);
+    transition         : outline ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition      : outline ease-in-out .15s, box-shadow ease-in-out .15s;
+    -webkit-transition : outline ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
 }
 
 .chat-textarea:focus {
     border-color       : #66afe9;
     outline            : 0;
-    -webkit-box-shadow : inset 0 4px 4px rgba(0, 0, 0, .075), 0 0 10px rgba(102, 175, 233, .6);
-    box-shadow         : inset 0 4px 4px rgba(0, 0, 0, .075), 0 0 10px rgba(102, 175, 233, .6);
+    -webkit-box-shadow : inset 0 6px 6px rgba(0, 0, 0, .075), 0 0 12px rgba(18, 73, 233, 0.6);
+    box-shadow         : inset 0 6px 6px rgba(0, 0, 0, .075), 0 0 12px rgba(18, 73, 233, 0.6);
 }
 
 .send-button-group {
     width      : 100%;
     height     : 30%;
     text-align : center;
+    margin     : 4px auto 2px auto;
 }
 
 .send-button {
@@ -96,9 +160,9 @@
     cursor         : pointer;
     user-select    : none;
     background     : #337ab7 none;
-    margin         : 2px 0 4px 4px;
+    margin         : 1px 0 3px 1px;
     border         : 1px solid transparent;
-    border-radius  : 4px;
+    border-radius  : 2px;
 }
 
 .send-button:focus,
