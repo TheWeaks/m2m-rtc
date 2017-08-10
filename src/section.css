@@ -4,28 +4,53 @@
 
 =====================================*/
 .chat-content {
-    outline : 1px solid black;
-    width   : 100%;
-    height  : 72.5%;
+    width  : 100%;
+    height : 72.5%;
 }
+
+/*---------------↑聊天信息栏↑-------------------*/
 
 .chat-toolbar {
-    outline : 1px solid black;
-    width   : 100%;
-    height  : 5%;
+    width      : 100%;
+    height     : 5%;
+    box-shadow : 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 }
 
-.chat-toolbar ul {
-
+.chat-toolbar > .toolbar-button {
+    position : relative;
+    float    : left;
 }
 
-.chat-toolbar ul li {
-
+.toolbar-button {
+    width               : 50%;
+    display             : inline-block;
+    padding             : 6px 12px;
+    margin-bottom       : 0;
+    font-size           : 14px;
+    font-weight         : normal;
+    line-height         : 1.42857143;
+    text-align          : center;
+    white-space         : nowrap;
+    vertical-align      : middle;
+    -ms-touch-action    : manipulation;
+    touch-action        : manipulation;
+    cursor              : pointer;
+    -webkit-user-select : none;
+    -moz-user-select    : none;
+    -ms-user-select     : none;
+    user-select         : none;
+    background-image    : none;
+    border              : 1px solid transparent;
 }
+
+.toolbar-button > i {
+    font-size : 20px;
+}
+
+/*---------------↑工具栏↑-----------------------*/
 
 .chat-textarea-container {
-    outline : 1px solid black;
-    height  : 22.5%;
+    height : 22.5%;
 
 }
 
@@ -57,7 +82,7 @@
 }
 
 .send-button {
-    width          : 45%;
+    width          : 47%;
     color          : #fff;
     display        : inline-block;
     padding        : 6px 12px;
@@ -108,18 +133,7 @@
     box-shadow         : inset 0 3px 5px rgba(0, 0, 0, .125);
 }
 
-.send-button[disabled],
-fieldset[disabled] .send-button {
-    cursor             : not-allowed;
-    filter             : alpha(opacity=65);
-    -webkit-box-shadow : none;
-    box-shadow         : none;
-    opacity            : .65;
-}
-
-fieldset[disabled] a.send-button {
-    pointer-events : none;
-}
+/*---------------↑输入框组↑-----------------------*/
 
 /*====================================
 

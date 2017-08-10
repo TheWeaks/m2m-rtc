@@ -20,6 +20,10 @@ module.exports = {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract({loader: 'css-loader?sourceMap'}),
                 include: [helpers.root('src')]
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)\w*/,
+                loader: 'file-loader?publicPath=/static/res/&outputPath=font/'
             }
         ]
 
