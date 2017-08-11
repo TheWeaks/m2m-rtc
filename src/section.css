@@ -42,6 +42,7 @@
 .chat-content {
     width            : 100%;
     height           : 72.5%;
+    overflow-y       : scroll;
     background-color : #17141f;
 }
 
@@ -51,11 +52,73 @@
     list-style : none;
 }
 
-.chat-line {
-    width      : 100%;
-    text-align : match-parent;
-    display    : list-item;
-    list-style : none unset none;
+.chat-line-left {
+    min-height    : 30px;
+    margin-left   : 5px;
+    margin-bottom : 5px;
+}
+
+.chat-line-right {
+    height        : auto;
+    min-height    : 30px;
+    margin-right  : 5px;
+    margin-bottom : 5px;
+}
+
+.line-user-name {
+    font-size : 15px;
+    color     : #717171;
+    margin    : 5px auto 3px 8px;
+}
+
+.line-user-name-right {
+    text-align : right;
+    font-size  : 15px;
+    color      : #717171;
+    margin     : 5px 8px 3px auto;
+}
+
+.time-divider {
+    color      : #717171;
+    text-align : center;
+    font-size  : 7px;
+    margin     : 15px 0 5px 0;
+}
+
+.chat-line-left > p {
+    width            : fit-content;
+    max-width        : 70%;
+    background-color : #1351ff;
+    font-size        : 15px;
+    color            : #FFFFFF;
+    word-wrap        : break-word;
+    word-break       : break-all;
+    padding          : 5px 10px 4px 10px;
+    margin           : 3px auto 5px 5px;
+    border-radius    : 10px;
+    display          : list-item;
+}
+
+.chat-line-right > p {
+    float            : right;
+    text-align       : right;
+    width            : fit-content;
+    max-width        : 70%;
+    background-color : #FFFFFF;
+    font-size        : 15px;
+    color            : #000000;
+    word-wrap        : break-word;
+    word-break       : break-all;
+    padding          : 5px 10px 4px 10px;
+    margin           : 0 auto 5px 5px;
+    border-radius    : 10px;
+    display          : list-item;
+}
+
+.time-divider:before, .time-divider:after, .chat-line-left:before, .chat-line-left:after, .chat-line-right:after, .chat-line-right:before {
+    display : table;
+    content : " ";
+    clear   : both;
 }
 
 /*---------------↑聊天信息栏↑-------------------*/
