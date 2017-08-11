@@ -1,7 +1,7 @@
 //import jQuery.js
 import $ from 'jquery'
 
-let p = navigator.mediaDevices.getUserMedia({audio: true, video: {width: 1280, height: 720}});
+let p = navigator.mediaDevices.getUserMedia({audio: false, video: {width: 1280, height: 720}});
 
 p.then(function (mediaStream) {
     let video = document.querySelector('#main-stream');

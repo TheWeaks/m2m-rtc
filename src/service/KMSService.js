@@ -35,7 +35,7 @@ export class KMSService extends EventEmitter {
                 // case '_login':
                 //     this.emit('loginSuccess');
                 //     break;
-                case 'loginError': 
+                case 'loginError':
 
                 // 房间加入成功
                 case 'existingParticipants':
@@ -51,7 +51,11 @@ export class KMSService extends EventEmitter {
                 case 'receiveVideoAnswer':
                     this.onReceiveVideoAnswer(message);
                     break;
-                
+                case 'iceCandidate':
+                    this.onNeedIceCandidate(message);
+                    break;
+                default:
+
             }
         }
     }
@@ -191,7 +195,7 @@ export class KMSService extends EventEmitter {
     onParticipantLeft(message) {
         let index = this.participants.findIndex(p => p.userId == message.userId);
         if (index === -1) {
-            
+
         } else {
             let p = this.participants[index];
             p.dispose();
@@ -199,9 +203,27 @@ export class KMSService extends EventEmitter {
         }
     }
 
-    onReceiveVideoAnswer(message)
+    onReceiveVideoAnswer(message) {
+        let p = this.queryParticipantById(message.userId);
+        if (p) {
+            p.rtcPeer.processAnswer(message.sdpAnswer, error => {
 
+            });
+        } else {
 
+        }
+    }
+
+    onNeedIceCandidate(message) {
+        let p = this.queryParticipantById(message.userId);
+        if (p) {
+            p.rtcPeer.addIceCandidate(message.candidate, error => {
+                
+            })
+        } else {
+            
+        }
+    }
 
     /**
      * 发送websocket信息
@@ -211,6 +233,11 @@ export class KMSService extends EventEmitter {
         let jsonMsg = JSON.stringify(message);
         this.ws.send(jsonMsg);
         console.log('message send: \n' + jsonMsg);
+    }
+
+    queryParticipantById(userId) {
+        let index = this.participants.findIndex(p => p.userId == userId)
+        return index == -1 ? null : this.participants[index];
     }
 
 }
