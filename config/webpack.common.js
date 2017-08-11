@@ -18,13 +18,20 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract({loader: 'css-loader?sourceMap'}),
+				loader: ExtractTextPlugin.extract({ loader: 'css-loader?sourceMap' }),
 				include: [helpers.root('src')]
 			},
+			{ 
+				test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+				loader: "url-loader?limit=10000&mimetype=application/font-woff" },
 			{
-				test: /\.(eot|svg|ttf|woff|woff2)\w*/,
-				loader: 'file-loader?publicPath=/static/res/&outputPath=font/'
+				test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+				loader: "file-loader" 
 			}
+			// {
+			// 	test: /\.(eot|svg|ttf|woff|woff2)\w*/,
+			// 	loader: 'file-loader?publicPath=/static/res/&outputPath=font/'
+			// }
 		]
 
 	},
