@@ -1,37 +1,46 @@
-.stream-container {
-    width  : 100%;
-    height : 77.5%;
+/*====================================
+
+    The left section
+
+=====================================*/
+.hidden{
+	display : none;
 }
 
-.stream-container-bottom {
-    width  : 100%;
-    height : 22.5%;
+.stream-container{
+	width  : 100%;
+	height : 77.5%;
 }
 
-.stream-main {
-    outline  : 1px solid #CCCCCC;
-    width    : 100%;
-    height   : 100%;
-    overflow : hidden;
+.stream-container-bottom{
+	width  : 100%;
+	height : 22.5%;
 }
 
-#main-stream {
-    width      : 100%;
-    height     : 100%;
-    object-fit : cover;
+.stream-main{
+	width    : 100%;
+	height   : 100%;
+	overflow : hidden;
+	outline  : 1px solid #CCCCCC;
 }
 
-.stream-sub {
-    float    : left;
-    width    : 33.3333333%;
-    height   : 100%;
-    overflow : hidden;
+#main-stream{
+	width      : 100%;
+	height     : 100%;
+	object-fit : cover;
 }
 
-.substream {
-    width      : 100%;
-    height     : 100%;
-    object-fit : cover;
+.stream-sub{
+	float    : left;
+	width    : 33.3333333%;
+	height   : 100%;
+	overflow : hidden;
+}
+
+.substream{
+	width      : 100%;
+	height     : 100%;
+	object-fit : cover;
 }
 
 /*====================================
@@ -39,126 +48,46 @@
     The right section
 
 =====================================*/
-.chat-content {
-    width            : 100%;
-    height           : 72.5%;
-    overflow-y       : scroll;
-    background-color : #17141f;
+
+/*-----------------------↓工具栏↓---------------------------*/
+
+.chat-toolbar{
+	width  : 100%;
+	height : 5%;
 }
 
-.chat-lines {
-    display    : inline;
-    width      : 100%;
-    list-style : none;
+.chat-toolbar > .toolbar-button{
+	position : relative;
+	float    : left;
 }
 
-.chat-line-left {
-    min-height    : 30px;
-    margin-left   : 5px;
-    margin-bottom : 5px;
+.toolbar-button{
+	display             : inline-block;
+	width               : 50%;
+	height              : 100%;
+	color               : #FFFFFF;
+	font-size           : 14px;
+	font-weight         : normal;
+	line-height         : 1.42857143;
+	text-align          : center;
+	vertical-align      : middle;
+	background          : #17141F none;
+	padding             : 6px 12px;
+	white-space         : nowrap;
+	-ms-touch-action    : manipulation;
+	touch-action        : manipulation;
+	cursor              : pointer;
+	-webkit-user-select : none;
+	-moz-user-select    : none;
+	-ms-user-select     : none;
+	user-select         : none;
+	border              : 1px solid transparent;
+	outline             : 1px solid #CCCCCC;
+
 }
 
-.chat-line-right {
-    height        : auto;
-    min-height    : 30px;
-    margin-right  : 5px;
-    margin-bottom : 5px;
-}
-
-.line-user-name {
-    font-size : 15px;
-    color     : #717171;
-    margin    : 5px auto 3px 8px;
-}
-
-.line-user-name-right {
-    text-align : right;
-    font-size  : 15px;
-    color      : #717171;
-    margin     : 5px 8px 3px auto;
-}
-
-.time-divider {
-    color      : #717171;
-    text-align : center;
-    font-size  : 7px;
-    margin     : 15px 0 5px 0;
-}
-
-.chat-line-left > p {
-    width            : fit-content;
-    max-width        : 70%;
-    background-color : #1351ff;
-    font-size        : 15px;
-    color            : #FFFFFF;
-    word-wrap        : break-word;
-    word-break       : break-all;
-    padding          : 5px 10px 4px 10px;
-    margin           : 3px auto 5px 5px;
-    border-radius    : 10px;
-    display          : list-item;
-}
-
-.chat-line-right > p {
-    float            : right;
-    text-align       : right;
-    width            : fit-content;
-    max-width        : 70%;
-    background-color : #FFFFFF;
-    font-size        : 15px;
-    color            : #000000;
-    word-wrap        : break-word;
-    word-break       : break-all;
-    padding          : 5px 10px 4px 10px;
-    margin           : 0 auto 5px 5px;
-    border-radius    : 10px;
-    display          : list-item;
-}
-
-.time-divider:before, .time-divider:after, .chat-line-left:before, .chat-line-left:after, .chat-line-right:after, .chat-line-right:before {
-    display : table;
-    content : " ";
-    clear   : both;
-}
-
-/*---------------↑聊天信息栏↑-------------------*/
-
-.chat-toolbar {
-    width  : 100%;
-    height : 5%;
-}
-
-.chat-toolbar > .toolbar-button {
-    position : relative;
-    float    : left;
-}
-
-.toolbar-button {
-    width               : 50%;
-    height              : 100%;
-    display             : inline-block;
-    color               : #FFFFFF;
-    padding             : 6px 12px;
-    font-size           : 14px;
-    font-weight         : normal;
-    line-height         : 1.42857143;
-    text-align          : center;
-    white-space         : nowrap;
-    vertical-align      : middle;
-    -ms-touch-action    : manipulation;
-    touch-action        : manipulation;
-    cursor              : pointer;
-    -webkit-user-select : none;
-    -moz-user-select    : none;
-    -ms-user-select     : none;
-    user-select         : none;
-    border              : 1px solid transparent;
-    outline             : 1px solid #CCCCCC;
-    background          : #17141f none;
-}
-
-.toolbar-button > i {
-    font-size : 20px;
+.toolbar-button > i{
+	font-size : 20px;
 }
 
 .toolbar-button:focus,
@@ -166,240 +95,326 @@
 .toolbar-button.active:focus,
 .toolbar-button.focus,
 .toolbar-button:active.focus,
-.toolbar-button.active.focus {
-    color            : #FFFFFF;
-    background-color : #286090;
-    border-color     : #122B40;
-    outline          : 5px auto -webkit-focus-ring-color;
-    outline-offset   : -2px;
+.toolbar-button.active.focus{
+	color            : #FFFFFF;
+	background-color : #286090;
+	border-color     : #122B40;
+	outline          : 5px auto -webkit-focus-ring-color;
+	outline-offset   : -2px;
 }
 
 .toolbar-button:hover,
 .toolbar-button:focus,
-.toolbar-button.focus {
-    color            : #FFFFFF;
-    background-color : #286090;
-    border-color     : #204D74;
-    text-decoration  : none;
+.toolbar-button.focus{
+	color            : #FFFFFF;
+	background-color : #286090;
+	border-color     : #204D74;
+	text-decoration  : none;
 }
 
 .toolbar-button:active,
-.toolbar-button.active {
-    color              : #FFFFFF;
-    border-color       : #204D74;
-    background         : #286090 none;
-    outline            : 0;
-    -webkit-box-shadow : inset 0 3px 5px rgba(0, 0, 0, .125);
-    box-shadow         : inset 0 3px 5px rgba(0, 0, 0, .125);
+.toolbar-button.active{
+	color              : #FFFFFF;
+	border-color       : #204D74;
+	background         : #286090 none;
+	outline            : 0;
+	-webkit-box-shadow : inset 0 3px 5px rgba(0, 0, 0, .125);
+	box-shadow         : inset 0 3px 5px rgba(0, 0, 0, .125);
 }
 
-/*---------------↑工具栏↑-----------------------*/
-
-.chat-textarea-container {
-    height           : 22.5%;
-    background-color : #17141f;
+/*------------------------↓聊天信息栏↓------------------------*/
+.chat-content{
+	width            : 100%;
+	height           : 72.5%;
+	overflow-y       : scroll;
+	background-color : #17141F;
 }
 
-.chat-textarea {
-    display            : block;
-    overflow           : auto;
-    width              : 100%;
-    height             : 70%;
-    color              : #878787;
-    font-size          : large;
-    background-color   : #323232;
-    padding            : 5px;
-    border             : none;
-    box-sizing         : border-box;
-    box-shadow         : inset 0 2px 2px rgba(0, 0, 0, .075);
-    -webkit-box-shadow : inset 0 2px 2px rgba(0, 0, 0, .075);
-    transition         : outline ease-in-out .15s, box-shadow ease-in-out .15s;
-    -o-transition      : outline ease-in-out .15s, box-shadow ease-in-out .15s;
-    -webkit-transition : outline ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+.chat-lines{
+	display    : inline;
+	width      : 100%;
+	list-style : none;
 }
 
-.chat-textarea:focus {
-    border-color       : #66AFE9;
-    outline            : 0;
-    -webkit-box-shadow : inset 0 6px 6px rgba(0, 0, 0, .075), 0 0 12px rgba(204, 204, 204, 0.6);
-    box-shadow         : inset 0 6px 6px rgba(0, 0, 0, .075), 0 0 12px rgba(204, 204, 204, 0.6);
+.chat-line-left{
+	min-height    : 30px;
+	margin-left   : 5px;
+	margin-bottom : 5px;
 }
 
-.send-button-group {
-    display     : flex;
-    width       : 100%;
-    height      : 30%;
-    text-align  : center;
-    align-items : center;
+.chat-line-right{
+	height        : auto;
+	min-height    : 30px;
+	margin-right  : 5px;
+	margin-bottom : 5px;
 }
 
-.send-button {
-    width          : 50%;
-    height         : 100%;
-    color          : #FFFFFF;
-    display        : inline-block;
-    padding        : 6px 12px;
-    font-size      : 14px;
-    font-weight    : normal;
-    line-height    : 1.42857143;
-    text-align     : center;
-    vertical-align : middle;
-    white-space    : nowrap;
-    touch-action   : manipulation;
-    cursor         : pointer;
-    user-select    : none;
-    background     : #17141f none;
-    border         : 1px solid transparent;
+.chat-line-image{
+	max-width : 100%;
+}
+
+.line-user-name{
+	font-size : 15px;
+	color     : #717171;
+	margin    : 5px auto 3px 8px;
+}
+
+.line-user-name-right{
+	text-align : right;
+	font-size  : 15px;
+	color      : #717171;
+	margin     : 5px 5px 3px auto;
+}
+
+.time-divider{
+	color      : #717171;
+	text-align : center;
+	font-size  : 7px;
+	margin     : 15px 0 5px 0;
+}
+
+.chat-line-left > p{
+	display          : list-item;
+	width            : fit-content;
+	max-width        : 70%;
+	color            : #FFFFFF;
+	font-size        : 15px;
+	word-wrap        : break-word;
+	word-break       : break-all;
+	background-color : #3360E7;
+	padding          : 5px 10px 4px 10px;
+	margin           : 3px auto 5px 5px;
+	border-radius    : 10px;
+}
+
+.chat-line-right > p{
+	float            : right;
+	display          : list-item;
+	width            : fit-content;
+	max-width        : 70%;
+	color            : #000000;
+	font-size        : 15px;
+	word-wrap        : break-word;
+	word-break       : break-all;
+	text-align       : left;
+	background-color : #FFFFFF;
+	padding          : 5px 10px 4px 10px;
+	margin           : 0 auto 5px 5px;
+	border-radius    : 10px;
+
+}
+
+.time-divider:before, .time-divider:after, .chat-line-left:before, .chat-line-left:after, .chat-line-right:after, .chat-line-right:before{
+	display : table;
+	content : " ";
+	clear   : both;
+}
+
+/*-----------------------↓输入框组↓---------------------------*/
+
+.chat-textarea-container{
+	height           : 22.5%;
+	background-color : #17141F;
+}
+
+.chat-textarea{
+	display            : block;
+	overflow           : auto;
+	width              : 100%;
+	height             : 70%;
+	color              : #878787;
+	font-size          : large;
+	background-color   : #323232;
+	padding            : 5px;
+	border             : none;
+	box-sizing         : border-box;
+	box-shadow         : inset 0 2px 2px rgba(0, 0, 0, .075);
+	-webkit-box-shadow : inset 0 2px 2px rgba(0, 0, 0, .075);
+	transition         : outline ease-in-out .15s, box-shadow ease-in-out .15s;
+	-o-transition      : outline ease-in-out .15s, box-shadow ease-in-out .15s;
+	-webkit-transition : outline ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+}
+
+.chat-textarea:focus{
+	border-color       : #66AFE9;
+	outline            : 0;
+	-webkit-box-shadow : inset 0 6px 6px rgba(0, 0, 0, .075), 0 0 12px rgba(204, 204, 204, 0.6);
+	box-shadow         : inset 0 6px 6px rgba(0, 0, 0, .075), 0 0 12px rgba(204, 204, 204, 0.6);
+}
+
+.send-button-group{
+	display     : flex;
+	width       : 100%;
+	height      : 30%;
+	text-align  : center;
+	align-items : center;
+}
+
+.send-button{
+	width          : 50%;
+	height         : 100%;
+	color          : #FFFFFF;
+	display        : inline-block;
+	padding        : 6px 12px;
+	font-size      : 14px;
+	font-weight    : normal;
+	line-height    : 1.42857143;
+	text-align     : center;
+	vertical-align : middle;
+	white-space    : nowrap;
+	touch-action   : manipulation;
+	cursor         : pointer;
+	user-select    : none;
+	background     : #17141F none;
+	border         : 1px solid transparent;
 }
 
 .send-button:focus,
 .send-button:active:focus,
 .send-button.focus,
-.send-button:active.focus {
-    color            : #FFFFFF;
-    background-color : #286090;
-    border-color     : #122B40;
-    outline          : 5px auto -webkit-focus-ring-color;
-    outline-offset   : -2px;
+.send-button:active.focus{
+	color            : #FFFFFF;
+	background-color : #286090;
+	border-color     : #122B40;
+	outline          : 5px auto -webkit-focus-ring-color;
+	outline-offset   : -2px;
 }
 
 .send-button:hover,
-.send-button:focus {
-    color            : #FFFFFF;
-    background-color : #286090;
-    border-color     : #204D74;
-    text-decoration  : none;
+.send-button:focus{
+	color            : #FFFFFF;
+	background-color : #286090;
+	border-color     : #204D74;
+	text-decoration  : none;
 }
 
 .send-button:active,
-.send-button.active {
-    color              : #FFFFFF;
-    border-color       : #204D74;
-    background         : #286090 none;
-    outline            : 0;
-    -webkit-box-shadow : inset 0 3px 5px rgba(0, 0, 0, .125);
-    box-shadow         : inset 0 3px 5px rgba(0, 0, 0, .125);
+.send-button.active{
+	color              : #FFFFFF;
+	border-color       : #204D74;
+	background         : #286090 none;
+	outline            : 0;
+	-webkit-box-shadow : inset 0 3px 5px rgba(0, 0, 0, .125);
+	box-shadow         : inset 0 3px 5px rgba(0, 0, 0, .125);
 }
-
-/*---------------↑输入框组↑-----------------------*/
 
 /*====================================
 
     icons
 
 =====================================*/
-#icons {
-    bottom   : 50vh;
-    left     : 3vw;
-    position : relative;
+#icons{
+	bottom   : 50vh;
+	left     : 3vw;
+	position : relative;
 }
 
-circle {
-    fill         : #666666;
-    fill-opacity : 0.6;
+circle{
+	fill         : #666666;
+	fill-opacity : 0.6;
 }
 
-svg.on circle {
-    fill-opacity : 0;
+svg.on circle{
+	fill-opacity : 0;
 }
 
 /* on icons are hidden by default */
-path.on {
-    display : none;
+path.on{
+	display : none;
 }
 
 /* off icons are displayed by default */
-path.off {
-    display : block;
+path.off{
+	display : block;
 }
 
 /* on icons are displayed when parent svg has class 'on' */
-svg.on path.on {
-    display : block;
+svg.on path.on{
+	display : block;
 }
 
 /* off icons are hidden when parent svg has class 'on' */
-svg.on path.off {
-    display : none;
+svg.on path.off{
+	display : none;
 }
 
-svg {
-    border-radius              : 48px;
-    box-shadow                 : 2px 2px 24px #444444;
-    display                    : block;
-    margin                     : 0 0 3vh 0;
-    transform                  : translateX(calc(-6vw - 96px));
-    transition                 : all .1s;
-    transition-timing-function : ease-in-out;
+svg{
+	border-radius              : 48px;
+	box-shadow                 : 2px 2px 24px #444444;
+	display                    : block;
+	margin                     : 0 0 3vh 0;
+	transform                  : translateX(calc(-6vw - 96px));
+	transition                 : all .1s;
+	transition-timing-function : ease-in-out;
 }
 
-svg:hover {
-    box-shadow : 4px 4px 48px #666666;
+svg:hover{
+	box-shadow : 4px 4px 48px #666666;
 }
 
-#icons.active svg {
-    transform : translateX(0);
+#icons.active svg{
+	transform : translateX(0);
 }
 
-#mute-audio {
-    transition : 40ms;
+#mute-audio{
+	transition : 40ms;
 }
 
 #mute-audio:hover,
-#mute-audio.on {
-    background : #407CF7;
+#mute-audio.on{
+	background : #407CF7;
 }
 
-#mute-audio:hover circle {
-    fill : #407CF7;
+#mute-audio:hover circle{
+	fill : #407CF7;
 }
 
-#mute-video {
-    transition : 120ms;
+#mute-video{
+	transition : 120ms;
 }
 
 #mute-video:hover,
-#mute-video.on {
-    background : #407CF7;
+#mute-video.on{
+	background : #407CF7;
 }
 
-#mute-video:hover circle {
-    fill : #407CF7;
+#mute-video:hover circle{
+	fill : #407CF7;
 }
 
-#switch-video {
-    transition : 200ms;
+#switch-video{
+	transition : 200ms;
 }
 
-#switch-video:hover {
-    background : #407CF7;
+#switch-video:hover{
+	background : #407CF7;
 }
 
-#switch-video:hover circle {
-    fill : #407CF7;
+#switch-video:hover circle{
+	fill : #407CF7;
 }
 
-#fullscreen {
-    transition : 280ms;
+#fullscreen{
+	transition : 280ms;
 }
 
 #fullscreen:hover,
-#fullscreen.on {
-    background : #407CF7;
+#fullscreen.on{
+	background : #407CF7;
 }
 
-#fullscreen:hover circle {
-    fill : #407CF7;
+#fullscreen:hover circle{
+	fill : #407CF7;
 }
 
-#hangup {
-    transition : 360ms;
+#hangup{
+	transition : 360ms;
 }
 
-#hangup:hover {
-    background : #DD2C00;
+#hangup:hover{
+	background : #DD2C00;
 }
 
-#hangup:hover circle {
-    fill : #DD2C00;
+#hangup:hover circle{
+	fill : #DD2C00;
 }
