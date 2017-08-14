@@ -5,6 +5,10 @@ import { WebRtcPeer } from 'kurento-utils'
  * KMS 服务类
  */
 export class KMSService extends EventEmitter {
+    /**
+     * 
+     * @param {string} url websocket服务器地址 
+     */
     constructor(url) {
         super();
         this.me = new Participant()
@@ -22,14 +26,15 @@ export class KMSService extends EventEmitter {
     connect(username, password) {
         this.ws = new WebSocket(this.serverUrl);
         this.ws.onopen = () => {
-            this.login(username, password);
+            // this.login(username, password);
+            this.emit('connect');
         }
         this.ws.onerror = event => {
-            this.emit('error', event);
+            this.emit('connectError', event);
         }
         this.ws.onmessage = messageEvent => {
             let message = JSON.parse(messageEvent.data)
-            console.log('message received: ' + message);
+            console.log(message);
             switch (message.type) {
                 // 身份验证通过
                 // case '_login':
@@ -37,23 +42,23 @@ export class KMSService extends EventEmitter {
                 //     break;
                 case 'loginError':
 
-                // 房间加入成功
-                case 'existingParticipants':
-                    onExistingParticipants(message);
-                    break;
                 // 已在房间中的参与者
                 case 'existingParticipants':
                     this.onExistingParticipants(message);
                     break;
+                // 参与者离开时
                 case 'participantLeft':
                     this.onParticipantLeft(message);
                     break;
+                // 收到视频应答
                 case 'receiveVideoAnswer':
                     this.onReceiveVideoAnswer(message);
                     break;
                 case 'iceCandidate':
                     this.onNeedIceCandidate(message);
                     break;
+                case 'reciveTextMessage':
+                    this.sendMessage('reciveTextMessage: '+ message.message + '\nuserID: '+ message.userId );
                 default:
 
             }
@@ -75,7 +80,7 @@ export class KMSService extends EventEmitter {
      */
     join(config) {
         config = Object.assign({ type: 'join' }, config);
-        this.me.id = config.userId;
+        this.me.userId = config.userId;
         this.room = config.room;
         this.sendMessage(config);
     }
@@ -85,7 +90,7 @@ export class KMSService extends EventEmitter {
      * @param {{userId, message}} config 
      */
     sendTextMessage(config) {
-        config = Object.assign({ type: 'sendMessage', config });
+        config = Object.assign({ type: 'sendMessage' }, config);
         this.sendMessage(config);
 
     }
@@ -101,7 +106,7 @@ export class KMSService extends EventEmitter {
      */
     onExistingParticipants(message) {
 
-        this.me.setRtcPeer();
+        this.me.createRtcPeer();
         // 获取显示自己视频画面的
         let videoElement = document.getElementById('video-mine');
         this.me.videoElement = videoElement;
@@ -121,6 +126,7 @@ export class KMSService extends EventEmitter {
             localVideo: this.me.videoElement,
             mediaConstraints: constraints
         }
+        let that = this;
 
         this.me.rtcPeer = new WebRtcPeer.WebRtcPeerSendonly(myOptions, function (error) {
             if (error) {
@@ -131,11 +137,11 @@ export class KMSService extends EventEmitter {
 
                 }
                 var msg = {
-                    id: "receiveVideoFrom",
-                    userId: this.me.userId,
+                    type: "receiveVideoFrom",
+                    userId: that.me.userId,
                     sdpOffer: sdpOffer
                 };
-                this.sendMessage(msg);
+                that.sendMessage(msg);
             });
         })
 
@@ -148,7 +154,8 @@ export class KMSService extends EventEmitter {
             p.suffix = part.suffix;
             this.participants.push(p);
         }
-        this.participants.forEach(recieveVideo)
+        this.participants.forEach(this.recieveVideo)
+        this.emit('join');
     }
 
     /**
@@ -241,3 +248,5 @@ export class KMSService extends EventEmitter {
     }
 
 }
+
+export default KMSService

@@ -4,7 +4,7 @@ import EventEmitter from './EventEmitter'
 class Participant {
 
 	constructor() {
-		this.id = 0;
+		this.userId = 0;
 		this.name = '';
 		this.prefix = '';
 		this.suffix = '';
