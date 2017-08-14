@@ -47,6 +47,7 @@
 			</div>
 			<div class="stream-mine">
 
+<<<<<<< HEAD
             </div>
         </div>
         <div class="stream-container-bottom">
@@ -121,6 +122,7 @@
             </div>
         </div>
     </section>
+=======
 			</div>
 		</div>
 		<div class="stream-container-bottom">
@@ -195,6 +197,7 @@
 			</div>
 		</div>
 	</section>
+>>>>>>> 82b1e4cab5a76490dc25aac40d856fc4940124fd
 </div>
 </body>
 </html>
