@@ -7,7 +7,7 @@ import $ from 'jquery'
 
 ======================================= */
 const imageInput = document.getElementById("input-chat-image");
-const fileInput = document.getElementById("button-chat-file");
+const fileInput = document.getElementById("input-chat-file");
 const observerConfig = {attributes: true, childList: true, characterData: false, subtree: true};
 const MutationObserver = window.MutationObserver;
 let target = document.querySelector(".chat-lines");
@@ -42,16 +42,18 @@ let p = navigator.mediaDevices.getUserMedia({audio: false, video: {width: 1280, 
 
 p.then(function (mediaStream) {
     let video = document.querySelector('#main-stream');
+    let mine = document.querySelector("#mine-stream");
     let subvideo1 = document.querySelector('#substream-1');
     let subvideo2 = document.querySelector('#substream-2');
     let subvideo3 = document.querySelector('#substream-3');
-    /*video.src = window.URL.createObjectURL(mediaStream);
+    video.src = window.URL.createObjectURL(mediaStream);
     subvideo1.src = window.URL.createObjectURL(mediaStream);
     subvideo2.src = window.URL.createObjectURL(mediaStream);
     subvideo3.src = window.URL.createObjectURL(mediaStream);
+    mine.src = window.URL.createObjectURL(mediaStream);
     video.onloadedmetadata = function (e) {
         // Do something with the video here.
-    };*/
+    };
 });
 
 p.catch(function (err) {
@@ -77,7 +79,7 @@ $('.chat-textarea').keyup(function (e) {
 
 //本地消息志杰显示在消息栏中
 function messageQueueTextRight(msg) {
-    $("#end").before("<li class='chat-line-right'>" +
+    $("#line-end").before("<li class='chat-line-right'>" +
         "<div class='line-user-name-right'>User known</div>" +
         "<p>" + msg + "</p>" +
         "</li>");
@@ -94,7 +96,7 @@ function messageQueueImageRight() {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function (e) {
-        $("#end").before("<li class='chat-line-right'>" +
+        $("#line-end").before("<li class='chat-line-right'>" +
             "<div class='line-user-name-right'>User known</div>" +
             "<p><img class='chat-line-image' src=" + this.result + "></p>" +
             "</li>");
@@ -104,12 +106,13 @@ function messageQueueImageRight() {
 //本地文件直接显示在消息栏中
 function messageQueueFileRight() {
     let file = this.files[0];
+    if (/image\/\w+/.test(file.type)) {
+        alert("图片请使用发送图片按钮")
+    }
     let reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload(function (e) {
-        $("#end").before("<li class='chat-line-right'>" +
-            "<div class='line-user-name-right'>User known</div>" +
-            "<p><i style='font-size: larger' class=\"fa fa-file-archive-o\" aria-hidden=\"true\"></i></p>" +
-            "</li>");
-    });
+    $("#line-end").before("<li class='chat-line-right'>" +
+        "<div class='line-user-name-right'>User known</div>" +
+        "<p><a href=" + this.result + "><i style='font-size: 90px' class=\"fa fa-file-archive-o\" aria-hidden=\"true\"></i></a></p>" +
+        "</li>");
 }

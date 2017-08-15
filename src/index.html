@@ -46,105 +46,38 @@
 				</div>
 			</div>
 			<div class="stream-mine">
-
-            </div>
-        </div>
-        <div class="stream-container-bottom">
-            <div class="stream-sub">
-                <video autoplay class="substream" id="substream-1"></video>
-            </div>
-            <div class="stream-sub">
-                <video autoplay class="substream" id="substream-2"></video>
-            </div>
-            <div class="stream-sub">
-                <video autoplay class="substream" id="substream-3"></video>
-            </div>
-        </div>
-    </section>
-    <section class="section-right">
-        <div class="chat-toolbar" role="toolbar">
-            <button id="button-chat-image" class="toolbar-button"><i class="fa fa-picture-o" aria-hidden="true"></i>
-            </button>
-            <button id="button-chat-file" class="toolbar-button"><i class="fa fa-file-archive-o" aria-hidden="true"></i>
-            </button>
-            <input type="file" id="input-chat-image" class="hidden" name="chatImage" value="">
-            <input type="file" id="input-chat-file" class="hidden" name="chatFile" value="">
-        </div>
-        <div class="chat-content">
-            <ul class="chat-lines">
-                <li class="chat-line-left">
-                    <div class="line-user-name">User unknown</div>
-                    <p>消息测试</p>
-                </li>
-                <li class="chat-line-left">
-                    <div class="line-user-name">User unknown</div>
-                    <p>多行消息测试<br>多行消息测试</p>
-                </li>
-                <li class="time-divider">21:20:23</li>
-                <li class="chat-line-left">
-                    <div class="line-user-name">User unknown</div>
-                    <p>大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试</p>
-                </li>
-                <li class="chat-line-right">
-                    <div class="line-user-name-right">User unknown</div>
-                    <p>消息测试</p>
-                </li>
-                <li class="chat-line-right">
-                    <div class="line-user-name-right">User unknown</div>
-                    <p>多行消息测试<br>多行消息测试</p>
-                </li>
-                <li class="chat-line-right">
-                    <div class="line-user-name-right">User unknown</div>
-                    <p>大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试</p>
-                </li>
-                <li class="chat-line-left">
-                    <div class="line-user-name">User unknown</div>
-                    <p>消息测试</p>
-                </li>
-                <li class="chat-line-left">
-                    <div class="line-user-name">User unknown</div>
-                    <p>多行消息测试<br>多行消息测试</p>
-                </li>
-                <li class="time-divider">21:20:23</li>
-                <li class="chat-line-left">
-                    <div class="line-user-name">User unknown</div>
-                    <p>大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试大段落测试</p>
-                </li>
-                <li id="end"></li>
-            </ul>
-        </div>
-        <div class="chat-textarea-container">
-            <textarea class="chat-textarea" name="chatText" placeholder="请输入..."></textarea>
-            <div class="send-button-group">
-                <button id="send-button" class="send-button">发送</button>
-                <button class="send-button">清除</button>
-            </div>
-        </div>
-    </section>
+				<video autoplay id="mine-stream"></video>
 			</div>
 		</div>
 		<div class="stream-container-bottom">
 			<div class="stream-sub">
 				<video autoplay class="substream" id="substream-1"></video>
+				<div class="stream-sub-controller">
+					<button><i class="fa fa-video-camera" aria-hidden="true"></i></button>
+					<button><i class="fa fa-volume-up" aria-hidden="true"></i></button>
+				</div>
 			</div>
 			<div class="stream-sub">
 				<video autoplay class="substream" id="substream-2"></video>
+				<div class="stream-sub-controller">
+					<button><i class="fa fa-video-camera" aria-hidden="true"></i></button>
+					<button><i class="fa fa-volume-up" aria-hidden="true"></i></button>
+				</div>
 			</div>
 			<div class="stream-sub">
 				<video autoplay class="substream" id="substream-3"></video>
+				<div class="stream-sub-controller">
+					<button><i class="fa fa-video-camera" aria-hidden="true"></i></button>
+					<button><i class="fa fa-volume-up" aria-hidden="true"></i></button>
+				</div>
 			</div>
 		</div>
 	</section>
 	<section class="section-right">
-		<div class="chat-toolbar" role="toolbar">
-			<button id="button-chat-image" class="toolbar-button"><i class="fa fa-picture-o" aria-hidden="true"></i>
-			</button>
-			<button id="button-chat-file" class="toolbar-button"><i class="fa fa-file-archive-o" aria-hidden="true"></i>
-			</button>
-			<input type="file" id="input-chat-image" class="hidden" name="chatImage" value="">
-			<input type="file" id="input-chat-file" class="hidden" name="chatFile" value="">
-		</div>
 		<div class="chat-content">
+			<div class="file-history">
+				<button><i class="fa fa-bars" aria-hidden="true"></i>文件记录</button>
+			</div>
 			<ul class="chat-lines">
 				<li class="chat-line-left">
 					<div class="line-user-name">User unknown</div>
@@ -187,10 +120,18 @@
 				<li id="line-end"></li>
 			</ul>
 		</div>
+		<div class="chat-toolbar" role="toolbar">
+			<button id="button-chat-image" class="toolbar-button"><i class="fa fa-picture-o" aria-hidden="true"></i>
+			</button>
+			<button id="button-chat-file" class="toolbar-button"><i class="fa fa-file-archive-o" aria-hidden="true"></i>
+			</button>
+			<input type="file" id="input-chat-image" class="hidden" name="chatImage" value="">
+			<input type="file" id="input-chat-file" class="hidden" name="chatFile" value="">
+		</div>
 		<div class="chat-textarea-container">
 			<textarea class="chat-textarea" name="chatText" placeholder="请输入..."></textarea>
 			<div class="send-button-group">
-				<button id="send-button" class="send-button">发送</button>
+				<button class="send-button">发送</button>
 				<button class="send-button">清除</button>
 			</div>
 		</div>
