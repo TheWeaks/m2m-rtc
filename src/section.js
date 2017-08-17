@@ -77,7 +77,7 @@ $('.chat-textarea').keyup(function (e) {
     }
 });
 
-//本地消息志杰显示在消息栏中
+//本地消息直接显示在消息栏中
 function messageQueueTextRight(msg) {
     $("#line-end").before("<li class='chat-line-right'>" +
         "<div class='line-user-name-right'>User known</div>" +
