@@ -13,11 +13,6 @@
     position : relative;
 }
 
-.stream-container-bottom {
-    width  : 100%;
-    height : 22.5%;
-}
-
 .stream-main {
     width    : 100%;
     height   : 100%;
@@ -34,7 +29,7 @@
     right         : 0;
     border-radius : 3px;
     box-shadow    : 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
-    transition: width .5s ease-in-out, height .5s ease-in-out;
+    transition    : width .5s ease-in-out, height .5s ease-in-out;
 }
 
 #main-stream {
@@ -43,11 +38,19 @@
     object-fit : cover;
 }
 
+.stream-container-bottom {
+    width  : fit-content;
+    height : 22.5%;
+}
+
 .stream-sub {
-    float    : left;
-    width    : 33.3333333%;
-    height   : 100%;
-    overflow : hidden;
+    float  : left;
+    width  : 300px;
+    height : 100%;
+}
+
+.stream-sub video {
+    width : inherit;
 }
 
 .stream-sub-controller {
@@ -55,7 +58,7 @@
     z-index    : 2;
     bottom     : 0;
     background : transparent;
-    width      : 25%;
+    width      : 300px;
 }
 
 .stream-sub-controller > button {
@@ -215,11 +218,31 @@
     margin     : 5px 5px 3px auto;
 }
 
+.room-status {
+    max-width        : 50%;
+    width            : fit-content;
+    color            : #9b9b9b;
+    font-size        : 8px;
+    text-align       : center;
+    background-color : #2d2d2d;
+    margin-left      : auto;
+    margin-right     : auto;
+    border-radius    : 10px;
+}
+
+.room-status p {
+    margin : 2px 5px 2px 5px;
+}
+
 .time-divider {
     color      : #717171;
     text-align : center;
     font-size  : 7px;
     margin     : 15px 0 5px 0;
+}
+
+.time-divider p {
+    margin : 2px 5px 2px 5px;
 }
 
 .chat-line-left > p {
@@ -425,10 +448,10 @@
 
 =====================================*/
 #icons {
-    top: 50%;
-    left: 3vw;
-    position: absolute;
-    transform: translateY(-50%);
+    top       : 50%;
+    left      : 3vw;
+    position  : absolute;
+    transform : translateY(-50%);
 }
 
 circle {

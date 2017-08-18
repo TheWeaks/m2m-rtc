@@ -15,7 +15,7 @@ if (process.env.ENV === 'production')
 // 连接成功时
 kmsService.on('connect', () => {
     console.log('connect');
-})
+});
 
 // 连接出现问题时
 kmsService.on('connectError', error => {
@@ -143,10 +143,10 @@ kmsService.connect()
 // 可使用enter提交，ctrl+enter换行
 chat_textarea.keyup(e => {
     let text = chat_textarea.val();
-    if (e.keyCode == 13 && e.ctrlKey) {
+    if (e.keyCode === 13 && e.ctrlKey) {
         chat_textarea.val(text + '\n');
     } 
-    else if (e.keyCode == 13) {
+    else if (e.keyCode === 13) {
         // 避免回车键换行
         e.preventDefault();
         chat_textarea.val(text.substring(0, text.length))

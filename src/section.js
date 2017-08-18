@@ -46,10 +46,12 @@ p.then(function (mediaStream) {
     let subvideo1 = document.querySelector('#substream-1');
     let subvideo2 = document.querySelector('#substream-2');
     let subvideo3 = document.querySelector('#substream-3');
+    let subvideo4 = document.querySelector("#substream-4");
     video.src = window.URL.createObjectURL(mediaStream);
     subvideo1.src = window.URL.createObjectURL(mediaStream);
     subvideo2.src = window.URL.createObjectURL(mediaStream);
     subvideo3.src = window.URL.createObjectURL(mediaStream);
+    subvideo4.src = window.URL.createObjectURL(mediaStream);
     mine.src = window.URL.createObjectURL(mediaStream);
     video.onloadedmetadata = function (e) {
         // Do something with the video here.
@@ -114,5 +116,38 @@ function messageQueueFileRight() {
     $("#line-end").before("<li class='chat-line-right'>" +
         "<div class='line-user-name-right'>User known</div>" +
         "<p><a href=" + this.result + "><i style='font-size: 90px' class=\"fa fa-file-archive-o\" aria-hidden=\"true\"></i></a></p>" +
+        "</li>");
+}
+
+//本地文件直接显示在消息栏中
+function messageQueueFileRight() {
+    let file = this.files[0];
+    let icon = null;
+    //文件类型验证
+    if (/image\/\w+/.test(file.type)) {
+        alert("图片请使用发送图片按钮");
+        return false;
+    }
+    if (/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/.test(file.type) || /application\/msword/.test(file.type) || /application\/vnd\.ms-works/.test(file.type)) {
+        icon = "<i style='font-size: 50px' class=\"fa fa-file-word-o\" aria-hidden=\"true\"></i>";
+    }//MS-WORD
+    if (/application\/vnd\.ms-excel/.test(file.type)) {
+        icon = "<i style='font-size: 50px'  class=\"fa fa-file-excel-o\" aria-hidden=\"true\"></i>";
+    }//MS-EXCEL
+    if (/application\/pdf/.test(file.type)) {
+        icon = "<i style='font-size: 50px'  class=\"fa fa-file-pdf-o\" aria-hidden=\"true\"></i>";
+    }//PDF
+    if (/application\/zip/.test(file.type)) {
+        icon = "<i style='font-size: 50px'  class=\"fa fa-file-archive-o\" aria-hidden=\"true\"></i>";
+    }//ZIP
+    if (/audio\/\w+/.test(file.type)) {
+        icon = "<i style='font-size: 50px'  class=\"fa fa-file-audio-o\" aria-hidden=\"true\"></i>";
+    }//AUDIO
+    if (/video\/\w+/.test(file.type)) {
+        icon = "<i style='font-size: 50px'  class=\"fa fa-file-video-o\" aria-hidden=\"true\"></i>";
+    }//VIDEO
+    $("#line-end").before("<li class='chat-line-right'>" +
+        "<div class='line-user-name-right'>User known</div>" +
+        "<p><a href=" + window.URL.createObjectURL(file) + ">" + icon + "</i></a></p>" +
         "</li>");
 }
