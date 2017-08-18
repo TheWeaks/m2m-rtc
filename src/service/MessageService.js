@@ -9,6 +9,7 @@ class MessageService {
         </li>
         `);
         $(".chat-textarea").val("");
+        this.toBottom();       
     }
 
     static otherSay(msg, participant) {
@@ -20,10 +21,19 @@ class MessageService {
             <p>${msg}</p>
         </li>
         `);
+        this.toBottom();
+    }
+
+    static roomSay(msg) {
+        $("#line-end").before(`
+        <li class='room-status'><p>${msg}</p></li>
+        `);  
+        this.toBottom();  
     }
 
     static getParticipantString(participant) {
         return `${participant.prefix} ${participant.name} ${participant.suffix}`;
+        return `${participant.name}`;
     }
 
     static checkTime() {
@@ -36,8 +46,12 @@ class MessageService {
 
     static addTimeStamp(time) {
         $("#line-end").before(`
-        <li class="time-divider">${time.toLocaleTimeString()}</li>
+        <li class="time-divider"><p>${time.toLocaleTimeString()}</p></li>
         `);
+    }
+
+    static toBottom() {
+        document.getElementById("line-end").scrollIntoView();        
     }
 }
 

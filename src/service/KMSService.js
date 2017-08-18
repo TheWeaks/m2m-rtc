@@ -169,11 +169,10 @@ export class KMSService extends EventEmitter {
                     sdpOffer: sdpOffer
                 };
                 that.sendMessage(msg);
-                this.emit('youJoinRoom', this.participants);
+                that.emit('youJoinRoom', that.participants);
             });
         })
-
-        // console.log(message.participants);
+        
         message.participants.forEach(p => this.receiveVideo(p))
     }
 
@@ -242,10 +241,12 @@ export class KMSService extends EventEmitter {
         } else {
             let p = this.participants[index];
             p.dispose();
-            this.emit('participantLeftRoom', p);
             this.participants.splice(index, 1);
+            this.emit('participantLeftRoom', p);
         }
     }
+
+
 
     onReceiveVideoAnswer(message) {
         if (message.userId === this.me.userId) {
@@ -272,7 +273,9 @@ export class KMSService extends EventEmitter {
     onNeedIceCandidate(message) {
         if (message.userId === this.me.userId) {
             this.me.rtcPeer.addIceCandidate(message.candidate, error => {
-
+                if (error) {
+                    this.emit('addIceCandidateError', error);
+                }
             })
         } else {
             let p = this.queryParticipantById(message.userId);
@@ -315,7 +318,6 @@ export class KMSService extends EventEmitter {
 
     queryParticipantById(userId) {
         let index = this.participants.findIndex(p => p.userId == userId)
-        console.log(index);
         return index == -1 ? null : this.participants[index];
     }
 
