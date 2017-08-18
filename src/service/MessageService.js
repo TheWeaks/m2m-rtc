@@ -3,9 +3,9 @@ class MessageService {
 
     static iSay(msg) {
         $("#line-end").before(`
-        <li class='chat-line-right'> +
-            <div class='line-user-name-right'>你</div> +
-            <p>${msg}</p> +
+        <li class='chat-line-right'>
+            <div class='line-user-name-right'>你</div>
+            <p>${msg}</p>
         </li>
         `);
         $(".chat-textarea").val("");
