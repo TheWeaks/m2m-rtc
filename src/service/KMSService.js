@@ -184,7 +184,7 @@ export class KMSService extends EventEmitter {
                     this.emit('offerError', error);
                 }
                 let msg = {
-                    type: "receiveVideoFrom",
+                    type: 'receiveVideoFrom',
                     userId: that.me.userId,
                     sdpOffer: sdpOffer
                 };
