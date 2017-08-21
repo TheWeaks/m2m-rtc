@@ -5,20 +5,20 @@ class MessageService {
         $("#line-end").before(`
         <li class='chat-line-right'>
             <div class='line-user-name-right'>你</div>
-            <p>${msg}</p>
+            <p>${this.encodeHTML(msg)}</p>
         </li>
         `);
         $(".chat-textarea").val("");
-        this.toBottom();       
+        this.toBottom();
     }
 
     static otherSay(msg, participant) {
         $("#line-end").before(`
         <li class='chat-line-left'>
             <div class='line-user-name'>
-                ${this.getParticipantString(participant)}
+                ${participant.toString()}
             </div>
-            <p>${msg}</p>
+            <p>${this.encodeHTML(msg)}</p>
         </li>
         `);
         this.toBottom();
@@ -27,13 +27,8 @@ class MessageService {
     static roomSay(msg) {
         $("#line-end").before(`
         <li class='room-status'><p>${msg}</p></li>
-        `);  
-        this.toBottom();  
-    }
-
-    static getParticipantString(participant) {
-        return `${participant.prefix} ${participant.name} ${participant.suffix}`;
-        return `${participant.name}`;
+        `);
+        this.toBottom();
     }
 
     static checkTime() {
@@ -51,7 +46,19 @@ class MessageService {
     }
 
     static toBottom() {
-        document.getElementById("line-end").scrollIntoView();        
+        document.getElementById("line-end").scrollIntoView();
+    }
+
+    static encodeHTML(msg) {
+        let temp = document.createElement('div');
+        temp.innerText = msg;
+        return temp.innerHTML;
+    }
+
+    static decodeHTML(msg) {
+        let temp = document.createElement('div');
+        temp.innerHTML = msg;
+        return temp.innerText;
     }
 }
 

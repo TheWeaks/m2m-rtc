@@ -1,12 +1,15 @@
 import $ from 'jquery'
 import KMSService from './service/KMSService'
 import MessageService from './service/MessageService'
+import VideoService from './service/VideoService'
 
 let send_button = $('#send-button');
 let clear_button = $('#clear-button');
 let chat_textarea = $('#chat-textarea');
 let chat_textarea_container = $('#chat-textarea-container');
 const ms = MessageService;
+const vs = VideoService;
+
 
 let kmsService = new KMSService('wss://' + '192.168.22.145:8443' + '/groupcall');
 if (process.env.ENV === 'production')
@@ -22,6 +25,7 @@ kmsService.on('connectError', error => {
     console.log('connectError: ' + error.stack);
 })
 
+// 返回无法识别格式的数据时
 kmsService.on('unrecognizedMessageError', error => {
     console.error(error.stack);
 })
@@ -29,13 +33,13 @@ kmsService.on('unrecognizedMessageError', error => {
 kmsService.on('youJoinRoom', otherParticipants => {
     ms.roomSay('欢迎加入房间');
     let pCount = otherParticipants.length;
+    let msg = `当前在线${pCount}人`;
     if (pCount == 0) {
-        let myVideoELe = kmsService.me.videoElement;
-        myVideoELe.style.width='100%';
-        myVideoELe.style.height='100%';
+        vs.expandYourself(kmsService.me);
+    } else {
+        msg += ':';
+        otherParticipants.forEach(p => msg += `<br>${p.name}`);
     }
-    let msg = `当前在线${pCount}人:`;
-    pCount == 0 ? msg += '' : otherParticipants.forEach(p => msg += `<br>${p.name}`)
     ms.roomSay(msg);
 })
 
@@ -61,47 +65,37 @@ kmsService.on('participantNotFoundError', error => {
 
 // 当有新的参与者加入时
 kmsService.on('newParticipantJoinRoom', participant => {
-    let myVideoELe = kmsService.me.videoElement;
-    myVideoELe.style.width='25%';
-    myVideoELe.style.height='auto';
-    ms.roomSay(`
-    ${participant.name}<br/>
-    加入
-    `);
+    vs.shrinkYourself(kmsService.me);
+    ms.roomSay(`${participant.name}<br/>加入`);
 })
 
 // 开始接受视频时
 kmsService.on('startReceiveVideo', participant => {
-    console.log('start receive video from: ' + participant);
-
-    // ms.roomSay(`开始从: ${participant.name} 接受视频`);
-
-    participant.videoElement.autoplay = true;
-    let videoContainer = document.createElement('div');
-    videoContainer.className = 'stream-sub';
-    videoContainer.appendChild(participant.videoElement)
-    participant.videoElement.className = 'substream';
-    document.getElementById('stream-container-bottom').appendChild(videoContainer);
-
-    // if (kmsService.participants.length === 1) {
-    //     document.getElementById('main-stream').src = 
-    //     // videoContainer.className = 'stream-main';
-    //     // participant.videoElement.className = 'main-stream';
-    //     // document.getElementById('main-stream-container').appendChild(videoContainer);
-    // }
+    ms.roomSay(`开始从: ${participant.name} 接受视频`);
+    // 初始化video标签至container
+    vs.initSubVideo(participant);
+    // 添加至视频序
+    vs.sequence.push(participant);
+    // 当只有除了你之外只有一个参与者的时候，自动上台
+    if (vs.sequence.length === 1) {
+        vs.upStage(participant);
+    }
 })
 
 // 当参与者离开房间时
 kmsService.on('participantLeftRoom', participant => {
     if (kmsService.participants.length == 0) {
-        let myVideoELe = kmsService.me.videoElement;
-        myVideoELe.style.width='100%';
-        myVideoELe.style.height='100%';
+        vs.expandYourself(kmsService.me);
     }
-    let videoContainer = participant.videoElement.parentNode;
-    videoContainer.parentNode.removeChild(videoContainer);
-
+    vs.removeVideoEle(participant);
+    vs.removeVideoOnSequence(participant);
     ms.roomSay(`${participant.name}<br/>离开房间`);
+    // 如果离开的参与者现在正在台上，则下台并让麦序上的第一个人上台
+    if (participant === vs.upStageParticipant) {
+        vs.downStage();
+        if (vs.sequence.length)
+            vs.upStage(vs.sequence[0]);
+    }
 })
 
 
@@ -116,22 +110,22 @@ kmsService.on('receiveTextMessage', (user, msg) => {
 });
 
 kmsService.on('receiveTextMessageError', error => {
-    
+
 })
 
 kmsService.on('unloadPage', event => {
     if (kmsService.ws) {
-        if (confirm(`是否退出房间${kmsService.room},并且关闭页面？`)){
+        if (confirm(`是否退出房间${kmsService.room},并且关闭页面？`)) {
             window.close();
             kmsService.disposeAll();
-        } else 
+        } else
             event.preventDefault();
     }
 })
 
 kmsService.connect()
     .then(kms => {
-        kms.join({ userId: Math.round(Math.random()* 1000) });
+        kms.join({ userId: Math.round(Math.random() * 1000) });
 
     }).catch(error => {
         console.error(error);
@@ -145,25 +139,21 @@ kmsService.connect()
 
 
 
-
-
-
-
 //===================================
 //  文字发送事件监听
 //===================================
 
-// 可使用enter提交，ctrl+enter换行
+// 可使用enter换行，ctrl+enter提交
 chat_textarea.keyup(e => {
     let text = chat_textarea.val();
     if (e.keyCode == 13 && e.ctrlKey) {
-        chat_textarea.val(text + '\n');
-    } 
+        e.preventDefault();
+        chat_textarea.val(text.substring(0, text.length - 1))
+        chat_textarea_container.submit();
+    }
     else if (e.keyCode == 13) {
         // 避免回车键换行
-        e.preventDefault();
-        chat_textarea.val(text.substring(0, text.length))
-        chat_textarea_container.submit();
+        // chat_textarea.val(text + '\n');
     }
 })
 
@@ -179,13 +169,8 @@ chat_textarea_container.submit(e => {
     }
 })
 
-
+// 清空输入框
 clear_button.click(e => {
     e.preventDefault();
     chat_textarea.val('');
 })
-
-function others() {
-    ms.checkTime();
-    ms.otherSay('sssss', kmsService.me);
-}

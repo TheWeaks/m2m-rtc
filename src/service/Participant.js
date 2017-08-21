@@ -1,5 +1,8 @@
 import { WebRtcPeer } from 'kurento-utils'
 
+/**
+ * 参与者
+ */
 class Participant {
 
 	constructor() {
@@ -14,6 +17,11 @@ class Participant {
 	dispose() {
 		this.rtcPeer.dispose();
 	};
+
+	toString() {
+		// return `${this.prefix} ${this.name} ${this.suffix}`;
+        return `${this.name}`;
+	}
 }
 
 export default Participant;

@@ -6,7 +6,7 @@ import { EventEmitter } from 'events'
  */
 export class KMSService extends EventEmitter {
     /**
-     * 
+     * 构造方法
      * @param {string} url websocket服务器地址 
      */
     constructor(url) {
@@ -20,7 +20,7 @@ export class KMSService extends EventEmitter {
 
     /**
      * 开启连接
-     * @return {Promise<KMSService>} 返回自身的promise
+     * @return {Promise<KMSService>}  返回自身的promise
      */
     connect() {
         let promise = new Promise((resolve, reject) => {
@@ -29,13 +29,30 @@ export class KMSService extends EventEmitter {
                 this.ws.onmessage = messageEvent => {
                     let message = JSON.parse(messageEvent.data)
                     console.info('Received message:\n' + JSON.stringify(message));
+                    /**
+                     * 
+                     * 从服务器接受的websocket数据结构(json)
+                     * {   
+                     *     type: ...,
+                     *     **: ...,
+                     *     ***: ...
+                     * }
+                     * 
+                     */
                     switch (message.type) {
-                        case 'loginError':
+                        // 用户不存在
+                        case 'userNotFound':
+                            this.emit('permisionDeny');
+                            break;
+                        // 用户权限不足（无法加入此房间）
+                        case 'permisionDeny':
+                            this.emit('permisionDeny');
                             break;
                         // 已在房间中的参与者
                         case 'existingParticipants':
                             this.onExistingParticipants(message);
                             break;
+                        // 新参与者加入时
                         case 'newParticipantArrived':
                             this.onNewArrived(message);
                             break;
@@ -47,12 +64,16 @@ export class KMSService extends EventEmitter {
                         case 'receiveVideoAnswer':
                             this.onReceiveVideoAnswer(message);
                             break;
+                        // 收到打洞方式时
                         case 'iceCandidate':
                             this.onNeedIceCandidate(message);
                             break;
+                        // 收到文字信息时
                         case 'receiveTextMessage':
                             this.onReceiveTextMessage(message);
                             break;
+                        // 无法识别返回信息的格式时
+                        case 'unrecognizedMessage':
                         default:
                             this.emit('unrecognizedMessageError', message);
 
@@ -92,7 +113,7 @@ export class KMSService extends EventEmitter {
 
     /**
      * 加入房间
-     * @param {{room, userId, (pw)}} config 请求信息，结构：{id: 'join, room}  不填 默认加入default房间
+     * @param {{room, userId, (pw)}} config 请求信息，结构：{id: 'join, room}  不填 默认加入123房间
      */
     join(config) {
         config = Object.assign({ type: 'join', room: this.room }, config);
@@ -119,10 +140,9 @@ export class KMSService extends EventEmitter {
 
     }
 
-
     /**
      * 当加入房间成功并返回当前房间用户数据的时
-     * @param {{data}} message 
+     * @param {{type, participants: [Participant]}} message 报文
      */
     onExistingParticipants(message) {
         // 获取显示自己视频画面的
@@ -133,7 +153,7 @@ export class KMSService extends EventEmitter {
             audio: true,
             video: {
                 mandatory: {
-                    maxWidth: 320,
+                    maxWidth: 480,
                     maxFrameRate: 30,
                     minFrameRate: 15
                 }
@@ -183,7 +203,7 @@ export class KMSService extends EventEmitter {
 
     /**
      * 准备接收其他参与者的视频
-     * @param {{name, userId, prefix, suffix}} 参与者信息 
+     * @param {{name, userId, prefix, suffix}} p 参与者信息 
      * @return {Participant} 当前参与者对象
      */
     receiveVideo(p) {
@@ -193,10 +213,7 @@ export class KMSService extends EventEmitter {
         part.prefix = p.prefix;
         part.suffix = p.suffix;
         part.videoElement = document.createElement('video');
-        // part.videoElement = document.getElementById('substream-1');
         this.participants.push(part);
-        // console.log(part);
-        console.log(this.participants);
         let myOptions = {
             remoteVideo: part.videoElement,
             onicecandidate: candidate => {
@@ -233,7 +250,7 @@ export class KMSService extends EventEmitter {
 
     /**
      * 当参与者离开时
-     * @param {{type, userId}} message 
+     * @param {{type, userId}} message 报文 
      */
     onParticipantLeft(message) {
         let index = this.participants.findIndex(p => p.userId == message.userId);
@@ -247,7 +264,10 @@ export class KMSService extends EventEmitter {
     }
 
 
-
+    /**
+     * 当收到参与者视频应答时
+     * @param {{type, sdpAnswer}} message 报文 
+     */
     onReceiveVideoAnswer(message) {
         if (message.userId === this.me.userId) {
             this.me.rtcPeer.processAnswer(message.sdpAnswer, error => {
@@ -270,6 +290,10 @@ export class KMSService extends EventEmitter {
         }
     }
 
+    /**
+     * 当需要打洞时
+     * @param {{type, candidate}} message 报文
+     */
     onNeedIceCandidate(message) {
         if (message.userId === this.me.userId) {
             this.me.rtcPeer.addIceCandidate(message.candidate, error => {
@@ -291,6 +315,10 @@ export class KMSService extends EventEmitter {
         }
     }
 
+    /**
+     * 当接收到文字聊天信息时
+     * @param {{type, message}} message 报文
+     */
     onReceiveTextMessage(message) {
         let user = message.userId === this.me.userId ? this.me : this.queryParticipantById(message.userId);
         if (!user) {
@@ -310,12 +338,19 @@ export class KMSService extends EventEmitter {
         // console.log('message send: \n' + jsonMsg);
     }
 
+    /**
+     * 销毁所有参与者（断开连接并退出）
+     */
     disposeAll() {
         this.participants.forEach(p => p.dispose());
         this.leave();
         this.ws.close();
     }
 
+    /**
+     * 通过userId查找参与者
+     * @param {number} userId 
+     */
     queryParticipantById(userId) {
         let index = this.participants.findIndex(p => p.userId == userId)
         return index == -1 ? null : this.participants[index];
