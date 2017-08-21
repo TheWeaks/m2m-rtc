@@ -1,17 +1,31 @@
 //import jQuery.js
-import $ from 'jquery'
+import $ from 'jquery';
+
+function model($) {
+    let Model = function (element, options) {
+        this.options              = options;
+        this.$body                = $(document.body);
+        this.$element             = $(element);
+        this.$content             = this.$element.find("model-content");
+        this.$backdrop            = null;
+        this.isShown              = null;
+        this.ingnoreBackdropClick = true;
+    };
+
+    
+}
 
 /*=======================================
 
     变量与常量初始化
 
 ======================================= */
-const imageInput = document.getElementById("input-chat-image");
-const fileInput = document.getElementById("input-chat-file");
-const observerConfig = {attributes: true, childList: true, characterData: false, subtree: true};
+const imageInput       = document.getElementById("input-chat-image");
+const fileInput        = document.getElementById("input-chat-file");
+const observerConfig   = {attributes: true, childList: true, characterData: false, subtree: true};
 const MutationObserver = window.MutationObserver;
-let target = document.querySelector(".chat-lines");
-let observer = new MutationObserver(function () {
+let target             = document.querySelector(".chat-lines");
+let observer           = new MutationObserver(function () {
     document.getElementById("line-end").scrollIntoView();
 });
 
@@ -41,16 +55,16 @@ $('#button-chat-file').on('click', function () {
 let p = navigator.mediaDevices.getUserMedia({audio: false, video: {width: 1280, height: 720}});
 
 p.then(function (mediaStream) {
-    let video = document.querySelector('#main-stream');
-    let mine = document.querySelector("#mine-stream");
-    let subvideo1 = document.querySelector('#substream-1');
-    let subvideo2 = document.querySelector('#substream-2');
-    let subvideo3 = document.querySelector('#substream-3');
-    video.src = window.URL.createObjectURL(mediaStream);
-    subvideo1.src = window.URL.createObjectURL(mediaStream);
-    subvideo2.src = window.URL.createObjectURL(mediaStream);
-    subvideo3.src = window.URL.createObjectURL(mediaStream);
-    mine.src = window.URL.createObjectURL(mediaStream);
+    let video              = document.querySelector('#main-stream');
+    let mine               = document.querySelector("#mine-stream");
+    let subvideo1          = document.querySelector('#substream-1');
+    let subvideo2          = document.querySelector('#substream-2');
+    let subvideo3          = document.querySelector('#substream-3');
+    video.src              = window.URL.createObjectURL(mediaStream);
+    subvideo1.src          = window.URL.createObjectURL(mediaStream);
+    subvideo2.src          = window.URL.createObjectURL(mediaStream);
+    subvideo3.src          = window.URL.createObjectURL(mediaStream);
+    mine.src               = window.URL.createObjectURL(mediaStream);
     video.onloadedmetadata = function (e) {
         // Do something with the video here.
     };
@@ -72,7 +86,7 @@ $('.chat-textarea').keyup(function (e) {
         if ($(this).val() === '\n') {
             $(".chat-textarea").val("");
         } else {
-            messageQueueTextRight($(this).val())
+            messageQueueTextRight($(this).val());
         }
     }
 });
@@ -107,7 +121,7 @@ function messageQueueImageRight() {
 function messageQueueFileRight() {
     let file = this.files[0];
     if (/image\/\w+/.test(file.type)) {
-        alert("图片请使用发送图片按钮")
+        alert("图片请使用发送图片按钮");
     }
     let reader = new FileReader();
     reader.readAsDataURL(file);
