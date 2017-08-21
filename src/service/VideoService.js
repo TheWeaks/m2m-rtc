@@ -5,8 +5,8 @@ class VideoService {
      */
     static expandYourself(me) {
         let myVideoELe = me.videoElement;
-        myVideoELe.style.width='100%';
-        myVideoELe.style.height='100%';
+        myVideoELe.style.width = '100%';
+        myVideoELe.style.height = '100%';
     }
 
     /**
@@ -15,8 +15,8 @@ class VideoService {
      */
     static shrinkYourself(me) {
         let myVideoELe = me.videoElement;
-        myVideoELe.style.width='25%';
-        myVideoELe.style.height='auto';
+        myVideoELe.style.width = '25%';
+        myVideoELe.style.height = 'auto';
     }
 
     /**
@@ -26,23 +26,22 @@ class VideoService {
     static initSubVideo(participant) {
         let v = participant.videoElement;
         v.autoplay = true;
-        v.controls = true;
+        // v.controls = true;
+        v.className = 'substream';
         let videoContainer = document.createElement('div');
         videoContainer.className = 'stream-sub';
-        // 视频元素添加进container
-        v.className = 'substream';
-        videoContainer.appendChild(v)
+
         // 添加标题
         let title = document.createElement('div');
         title.innerText = participant.toString();
         title.className = 'member-title';
-        videoContainer.appendChild(title);
+
         //添加按钮组
         let videoCtrlBtn = document.createElement('button');
         videoCtrlBtn.className = 'controller-video';
         // let 
-        videoCtrlBtn.innerHTML = 
-        `<i class="fa fa-play" aria-hidden="true" style='display: none'>
+        videoCtrlBtn.innerHTML =
+            `<i class="fa fa-play" aria-hidden="true" style='display: none'>
         </i><i class="fa fa-pause" aria-hidden="true" style='display: block'></i>`
         videoCtrlBtn.onclick = event => {
             if (v.paused) {
@@ -59,7 +58,7 @@ class VideoService {
         let audioCtrlBtn = document.createElement('button');
         audioCtrlBtn.className = 'controller-audio';
         audioCtrlBtn.innerHTML =
-        `<i class="fa fa-microphone" aria-hidden="true" style='display: block'></i>
+            `<i class="fa fa-microphone" aria-hidden="true" style='display: block'></i>
         <i class="fa fa-microphone-slash" aria-hidden="true" style='display: none'></i>`
         audioCtrlBtn.onclick = event => {
             if (v.muted) {
@@ -75,10 +74,17 @@ class VideoService {
         let stageCtrlBtn = document.createElement('button');
         stageCtrlBtn.className = 'controller-stage';
         stageCtrlBtn.innerHTML = '<i class="fa fa-caret-square-o-up" aria-hidden="true"></i>';
-        stageCtrlBtn.onclick =  event => {
+        stageCtrlBtn.onclick = event => {
             this.downStage(this.upStageParticipant);
             this.upStage(participant);
         }
+        // 全部添加至container
+        videoContainer.appendChild(title);
+        videoContainer.appendChild(v);
+        videoContainer.appendChild(videoCtrlBtn);
+        videoContainer.appendChild(audioCtrlBtn);
+        videoContainer.appendChild(stageCtrlBtn);
+
         document.getElementById('stream-container-bottom').appendChild(videoContainer);
     }
 
@@ -93,7 +99,8 @@ class VideoService {
         let mainVideoContainer = mainVideo.parentNode;
         mainVideoContainer.childNodes[0].innerText = participant.toString();
         mainVideo.src = pv.src;
-        
+
+        pv.parentNode.childNodes[2].click();
         pv.parentNode.style.display = 'none';
     }
 
@@ -117,7 +124,7 @@ class VideoService {
     static showVideo(participant) {
         let v = participant.videoElement;
         v.parentNode.style.display = 'block';
-        v.play();
+        v.parentNode.childNodes[2].click();
     }
 
     /**
