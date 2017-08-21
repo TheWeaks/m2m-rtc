@@ -8,7 +8,7 @@ class MessageService {
             <p>${this.encodeHTML(msg)}</p>
         </li>
         `);
-        $(".chat-textarea").val("");
+        $('.chat-textarea').val('');
         this.toBottom();
     }
 
