@@ -227,9 +227,9 @@ imageButton.click(() => {
 
 fileButton.click(() => {
     kmsService.emit('receiveFile', kmsService.me, {
-        fileName: 'Hybrid.css',
-        fileType: 'styleSheet',
-        fileUrl: 'http://localhost:3000/file/Hybrid.css'
+        fileName: '违纪检查模板.docx',
+        fileType: 'vnd.openxmlformats-officedocument.wordprocessingml.document',
+        fileUrl: 'http://localhost:3000/file/违纪检查模板.docx'
     });
 })
 
