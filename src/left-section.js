@@ -1,14 +1,14 @@
-import $ from 'jquery'
-import KMSService from './service/KMSService'
-import MessageService from './service/MessageService'
-import VideoService from './service/VideoService'
+import $ from 'jquery';
+import KMSService from './service/KMSService';
+import MessageService from './service/MessageService';
+import VideoService from './service/VideoService';
 
-let send_button = $('#send-button');
-let clear_button = $('#clear-button');
-let chat_textarea = $('#chat-textarea');
+let send_button             = $('#send-button');
+let clear_button            = $('#clear-button');
+let chat_textarea           = $('#chat-textarea');
 let chat_textarea_container = $('#chat-textarea-container');
-const ms = MessageService;
-const vs = VideoService;
+const ms                    = MessageService;
+const vs                    = VideoService;
 
 
 let kmsService = new KMSService('wss://' + '192.168.22.145:8443' + '/groupcall');
@@ -18,22 +18,22 @@ if (process.env.ENV === 'production')
 // 连接成功时
 kmsService.on('connect', () => {
     ms.roomSay('连接成功');
-})
+});
 
 // 连接出现问题时
 kmsService.on('connectError', error => {
     console.log('connectError: ' + error.stack);
-})
+});
 
 // 返回无法识别格式的数据时
 kmsService.on('unrecognizedMessageError', error => {
     console.error(error.stack);
-})
+});
 
 kmsService.on('youJoinRoom', otherParticipants => {
     ms.roomSay('欢迎加入房间');
     let pCount = otherParticipants.length;
-    let msg = `当前在线${pCount}人`;
+    let msg    = `当前在线${pCount}人`;
     if (pCount == 0) {
         vs.expandYourself(kmsService.me);
     } else {
@@ -41,33 +41,33 @@ kmsService.on('youJoinRoom', otherParticipants => {
         otherParticipants.forEach(p => msg += `<br>${p.name}`);
     }
     ms.roomSay(msg);
-})
+});
 
 kmsService.on('createPeerConnectionError', error => {
     console.error('peerConnection Error: \n' + error.stack);
-})
+});
 
 kmsService.on('offerError', error => {
     console.error('offer Error: \n' + error.stack);
-})
+});
 
 kmsService.on('processAnswerError', error => {
     console.error('process answer error: \n' + error.stack);
-})
+});
 
 kmsService.on('addIceCandidateError', error => {
-    console.error('add ice candidate error:\n' + error.stack)
-})
+    console.error('add ice candidate error:\n' + error.stack);
+});
 
 kmsService.on('participantNotFoundError', error => {
     console.error(error.stack);
-})
+});
 
 // 当有新的参与者加入时
 kmsService.on('newParticipantJoinRoom', participant => {
     vs.shrinkYourself(kmsService.me);
     ms.roomSay(`${participant.name}<br/>加入`);
-})
+});
 
 // 开始接受视频时
 kmsService.on('startReceiveVideo', participant => {
@@ -80,7 +80,7 @@ kmsService.on('startReceiveVideo', participant => {
     if (vs.sequence.length === 1) {
         vs.upStage(participant);
     }
-})
+});
 
 // 当参与者离开房间时
 kmsService.on('participantLeftRoom', participant => {
@@ -96,7 +96,7 @@ kmsService.on('participantLeftRoom', participant => {
         if (vs.sequence.length)
             vs.upStage(vs.sequence[0]);
     }
-})
+});
 
 
 // 接收到文字消息时
@@ -111,7 +111,7 @@ kmsService.on('receiveTextMessage', (user, msg) => {
 
 kmsService.on('receiveTextMessageError', error => {
 
-})
+});
 
 kmsService.on('unloadPage', event => {
     if (kmsService.ws) {
@@ -121,22 +121,15 @@ kmsService.on('unloadPage', event => {
         } else
             event.preventDefault();
     }
-})
+});
 
 kmsService.connect()
-    .then(kms => {
-        kms.join({ userId: Math.round(Math.random() * 1000) });
+          .then(kms => {
+              kms.join({userId: Math.round(Math.random() * 1000)});
 
-    }).catch(error => {
-        console.error(error);
-    })
-
-
-
-
-
-
-
+          }).catch(error => {
+    console.error(error);
+});
 
 
 //===================================
@@ -148,14 +141,14 @@ chat_textarea.keyup(e => {
     let text = chat_textarea.val();
     if (e.keyCode == 13 && e.ctrlKey) {
         e.preventDefault();
-        chat_textarea.val(text.substring(0, text.length - 1))
+        chat_textarea.val(text.substring(0, text.length - 1));
         chat_textarea_container.submit();
     }
     else if (e.keyCode == 13) {
         // 避免回车键换行
         // chat_textarea.val(text + '\n');
     }
-})
+});
 
 // 处理提交事件
 chat_textarea_container.submit(e => {
@@ -163,17 +156,17 @@ chat_textarea_container.submit(e => {
     let text = e.target.chatText.value;
     if (text) {
         kmsService.sendTextMessage({
-            message: text
-        });
+                                       message: text
+                                   });
         chat_textarea.val('');
     }
-})
+});
 
 // 清空输入框
 clear_button.click(e => {
     e.preventDefault();
     chat_textarea.val('');
-})
+});
 
 //===================================
 //  图片

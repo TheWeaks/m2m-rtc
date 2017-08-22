@@ -1,4 +1,5 @@
-import $ from 'jquery'
+import $ from 'jquery';
+
 class MessageService {
 
     static iSay(msg) {
@@ -34,7 +35,7 @@ class MessageService {
     static checkTime() {
         let now = new Date();
         if (now.getTime() - this.lastMessageTime.getTime() > 1000 * 60 * 2) {
-            this.addTimeStamp(now)
+            this.addTimeStamp(now);
         }
         this.lastMessageTime = now;
     }
@@ -50,13 +51,13 @@ class MessageService {
     }
 
     static encodeHTML(msg) {
-        let temp = document.createElement('div');
+        let temp       = document.createElement('div');
         temp.innerText = msg;
         return temp.innerHTML;
     }
 
     static decodeHTML(msg) {
-        let temp = document.createElement('div');
+        let temp       = document.createElement('div');
         temp.innerHTML = msg;
         return temp.innerText;
     }

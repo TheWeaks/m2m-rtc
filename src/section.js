@@ -60,10 +60,12 @@ p.then(function (mediaStream) {
     let subvideo1          = document.querySelector('#substream-1');
     let subvideo2          = document.querySelector('#substream-2');
     let subvideo3          = document.querySelector('#substream-3');
+    let subvideo4          = document.querySelector("#substream-4");
     video.src              = window.URL.createObjectURL(mediaStream);
     subvideo1.src          = window.URL.createObjectURL(mediaStream);
     subvideo2.src          = window.URL.createObjectURL(mediaStream);
     subvideo3.src          = window.URL.createObjectURL(mediaStream);
+    subvideo4.src          = window.URL.createObjectURL(mediaStream);
     mine.src               = window.URL.createObjectURL(mediaStream);
     video.onloadedmetadata = function (e) {
         // Do something with the video here.
@@ -158,6 +160,9 @@ function messageQueueFileRight() {
     if (/video\/\w+/.test(file.type)) {
         icon = "<i style='font-size: 50px'  class=\"fa fa-file-video-o\" aria-hidden=\"true\"></i>";
     }//VIDEO
+    else {
+        icon = "<i style='font-size: 50px' class=\"fa fa-file\" aria-hidden=\"true\"></i>";
+    }
     $("#line-end").before("<li class='chat-line-right'>" +
         "<div class='line-user-name-right'>User known</div>" +
         "<p><a href=" + window.URL.createObjectURL(file) + ">" + icon + "</i></a></p>" +
