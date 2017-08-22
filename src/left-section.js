@@ -2,12 +2,12 @@ import $ from 'jquery'
 import KMSService from './service/KMSService'
 import MessageService from './service/MessageService'
 import VideoService from './service/VideoService'
-import UploadService from './service/UploadService'
+import FileService from './service/FileService'
 
 
 const ms = MessageService;
 const vs = VideoService;
-const us = UploadService;
+const fs = FileService;
 
 
 // let kmsService = new KMSService('wss://' + '45.76.6.255:8443' + '/groupcall');
@@ -183,14 +183,14 @@ let fileInput = $('#input-chat-file');
 let imageInput = $('#input-chat-image');
 
 imageInput.change(event => {
-    us.uploadFile(us.IMG_SERVER, event.target.files[0], imageButton.get(0))
+    fs.uploadFile(fs.IMG_SERVER, event.target.files[0], imageButton.get(0))
       .then()
       .catch(error => {
           alert(`上传失败：\n${error.stack}`);
       })
 })
 fileInput.change(event => {
-    us.uploadFile(us.FILE_SERVER, event.target.files[0], imageButton.get(0))
+    fs.uploadFile(fs.FILE_SERVER, event.target.files[0], imageButton.get(0))
       .then()
       .catch(error => {
           alert(`上传失败：\n${error.stack}`);
@@ -198,4 +198,6 @@ fileInput.change(event => {
 })
 imageButton.click(() => imageInput.click());
 fileButton.click(() => fileInput.click());
+
+
 

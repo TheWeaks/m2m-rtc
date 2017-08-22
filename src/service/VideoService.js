@@ -30,6 +30,7 @@ class VideoService {
         v.className = 'substream';
         let videoContainer = document.createElement('div');
         videoContainer.className = 'stream-sub';
+        videoContainer.style.display = 'inline-block';
 
         // 添加标题
         let title = document.createElement('div');
@@ -163,7 +164,7 @@ class VideoService {
      */
     static showVideo(participant) {
         let v = participant.videoElement;
-        v.parentNode.style.display = 'block';
+        v.parentNode.style.display = 'inline-block';
         this.play(v);
         this.unmute(v);
     }

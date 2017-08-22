@@ -89,12 +89,18 @@
     min-height : 100%;
 }
 
-.stream-sub-controller {
+.stream-sub .stream-sub-controller {
     position   : absolute;
     z-index    : 2;
     bottom     : 0;
     background : transparent;
-    width      : 33.3333333%;
+    width      : 33.33%;
+    transform: translateY(100%);
+    transition: transform .3s ease-in-out;
+}
+
+.stream-sub:hover .stream-sub-controller {
+    transform: translateY(0);
 }
 
 .stream-sub-controller > button {

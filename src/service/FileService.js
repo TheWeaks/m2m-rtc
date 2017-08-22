@@ -1,4 +1,4 @@
-class UploadService {
+class FileService {
 
     /**
      * 上传文件
@@ -40,7 +40,7 @@ class UploadService {
     }
 }
 
-UploadService.FILE_SERVER = 'http://localhost:3000/file';
-UploadService.IMG_SERVER = 'http://localhost:3000/img'
+FileService.FILE_SERVER = 'http://localhost:3000/file';
+FileService.IMG_SERVER = 'http://localhost:3000/img'
 
-export default UploadService;
+export default FileService;
