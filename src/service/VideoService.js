@@ -37,9 +37,9 @@ class VideoService {
         title.className = 'member-title';
 
         //添加按钮组
+        let buttonContainer = document.createElement('div');
+        buttonContainer.className = 'stream-sub-controller';
         let videoCtrlBtn = document.createElement('button');
-        videoCtrlBtn.className = 'controller-video';
-        // let 
         videoCtrlBtn.innerHTML =
             `<i class="fa fa-play" aria-hidden="true" style='display: none'>
         </i><i class="fa fa-pause" aria-hidden="true" style='display: block'></i>`
@@ -56,7 +56,6 @@ class VideoService {
         }
 
         let audioCtrlBtn = document.createElement('button');
-        audioCtrlBtn.className = 'controller-audio';
         audioCtrlBtn.innerHTML =
             `<i class="fa fa-microphone" aria-hidden="true" style='display: block'></i>
         <i class="fa fa-microphone-slash" aria-hidden="true" style='display: none'></i>`
@@ -72,7 +71,6 @@ class VideoService {
         }
 
         let stageCtrlBtn = document.createElement('button');
-        stageCtrlBtn.className = 'controller-stage';
         stageCtrlBtn.innerHTML = '<i class="fa fa-caret-square-o-up" aria-hidden="true"></i>';
         stageCtrlBtn.onclick = event => {
             this.downStage(this.upStageParticipant);
@@ -81,9 +79,10 @@ class VideoService {
         // 全部添加至container
         videoContainer.appendChild(title);
         videoContainer.appendChild(v);
-        videoContainer.appendChild(videoCtrlBtn);
-        videoContainer.appendChild(audioCtrlBtn);
-        videoContainer.appendChild(stageCtrlBtn);
+        buttonContainer.appendChild(videoCtrlBtn);
+        buttonContainer.appendChild(audioCtrlBtn);
+        buttonContainer.appendChild(stageCtrlBtn);
+        videoContainer.appendChild(buttonContainer);
 
         document.getElementById('stream-container-bottom').appendChild(videoContainer);
     }
@@ -100,7 +99,7 @@ class VideoService {
         mainVideoContainer.childNodes[0].innerText = participant.toString();
         mainVideo.src = pv.src;
 
-        pv.parentNode.childNodes[2].click();
+        pv.parentNode.childNodes[2].childNodes[0].click();
         pv.parentNode.style.display = 'none';
     }
 
@@ -124,7 +123,7 @@ class VideoService {
     static showVideo(participant) {
         let v = participant.videoElement;
         v.parentNode.style.display = 'block';
-        v.parentNode.childNodes[2].click();
+        v.parentNode.childNodes[2].childNodes[0].click();
     }
 
     /**
