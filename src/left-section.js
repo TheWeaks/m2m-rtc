@@ -2,15 +2,15 @@ import $ from 'jquery'
 import KMSService from './service/KMSService'
 import MessageService from './service/MessageService'
 import VideoService from './service/VideoService'
+import UploadService from './service/UploadService'
 
-let send_button = $('#send-button');
-let clear_button = $('#clear-button');
-let chat_textarea = $('#chat-textarea');
-let chat_textarea_container = $('#chat-textarea-container');
+
 const ms = MessageService;
 const vs = VideoService;
+const us = UploadService;
 
 
+// let kmsService = new KMSService('wss://' + '45.76.6.255:8443' + '/groupcall');
 let kmsService = new KMSService('wss://' + '192.168.22.145:8443' + '/groupcall');
 if (process.env.ENV === 'production')
     kmsService = new KMSService('wss://' + location.host + '/groupcall');
@@ -126,7 +126,6 @@ kmsService.on('unloadPage', event => {
 kmsService.connect()
     .then(kms => {
         kms.join({ userId: Math.round(Math.random() * 1000) });
-
     }).catch(error => {
         console.error(error);
     })
@@ -142,6 +141,10 @@ kmsService.connect()
 //===================================
 //  文字发送事件监听
 //===================================
+
+let clear_button = $('#clear-button');
+let chat_textarea = $('#chat-textarea');
+let chat_textarea_container = $('#chat-textarea-container');
 
 // 可使用enter换行，ctrl+enter提交
 chat_textarea.keyup(e => {
@@ -175,6 +178,31 @@ clear_button.click(e => {
     chat_textarea.val('');
 })
 
+
+
+
 //===================================
-//  图片
+//  图片／文件发送事件监听
 //===================================
+let imageButton = $('#button-chat-image');
+let fileButton = $('#button-chat-file');
+let fileInput = $('#input-chat-file');
+let imageInput = $('#input-chat-image');
+
+imageInput.change(event => {
+    us.uploadFile(us.IMG_SERVER, event.target.files[0], imageButton.get(0))
+      .then()
+      .catch(error => {
+          alert(`上传失败：\n${error.stack}`);
+      })
+})
+fileInput.change(event => {
+    us.uploadFile(us.FILE_SERVER, event.target.files[0], imageButton.get(0))
+      .then()
+      .catch(error => {
+          alert(`上传失败：\n${error.stack}`);
+      })
+})
+imageButton.click(() => imageInput.click());
+fileButton.click(() => fileInput.click());
+

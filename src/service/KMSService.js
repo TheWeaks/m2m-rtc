@@ -26,6 +26,7 @@ export class KMSService extends EventEmitter {
         let promise = new Promise((resolve, reject) => {
             this.ws = new WebSocket(this.serverUrl);
             this.ws.onopen = () => {
+                
                 this.ws.onmessage = messageEvent => {
                     let message = JSON.parse(messageEvent.data)
                     console.info('Received message:\n' + JSON.stringify(message));
