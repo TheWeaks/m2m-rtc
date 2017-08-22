@@ -113,6 +113,21 @@ kmsService.on('receiveTextMessageError', error => {
 
 });
 
+// 接收到文件消息时
+kmsService.on('receiveFile', (user, fileInfo) => {
+    ms.checkTime();
+    if (user === kmsService.me) {
+        ms.iSendFile(fileInfo);
+    } else {
+        ms.otherSendFile(msg, fileInfo);
+    }
+});
+
+kmsService.on('receiveFileError', error => {
+
+});
+
+
 kmsService.on('unloadPage', event => {
     if (kmsService.ws) {
         if (confirm(`是否退出房间${kmsService.room},并且关闭页面？`)) {
@@ -184,20 +199,39 @@ let imageInput = $('#input-chat-image');
 
 imageInput.change(event => {
     fs.uploadFile(fs.IMG_SERVER, event.target.files[0], imageButton.get(0))
-      .then()
+      .then(fileInfo => {
+        kmsService.uploadSuccess(fileInfo);
+      })
       .catch(error => {
           alert(`上传失败：\n${error.stack}`);
       })
 })
 fileInput.change(event => {
     fs.uploadFile(fs.FILE_SERVER, event.target.files[0], imageButton.get(0))
-      .then()
+      .then(fileInfo => {
+        kmsService.uploadSuccess(fileInfo);
+      })
       .catch(error => {
           alert(`上传失败：\n${error.stack}`);
       })
 })
-imageButton.click(() => imageInput.click());
-fileButton.click(() => fileInput.click());
+// imageButton.click(() => imageInput.click());
+// fileButton.click(() => fileInput.click());
+imageButton.click(() => {
+    kmsService.emit('receiveFile', kmsService.me, {
+        fileName: 'QQ截图20150615134855.png',
+        fileType: 'image/png',
+        fileUrl: 'http://localhost:3000/img/QQ截图20150615134855.png'
+    });
+});
+
+fileButton.click(() => {
+    kmsService.emit('receiveFile', kmsService.me, {
+        fileName: 'Hybrid.css',
+        fileType: 'styleSheet',
+        fileUrl: 'http://localhost:3000/file/Hybrid.css'
+    });
+})
 
 
 

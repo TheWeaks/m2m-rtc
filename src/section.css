@@ -55,6 +55,16 @@
     outline  : 1px solid #CCCCCC;
 }
 
+.main-title {
+    position   : absolute;
+    z-index    : 2;
+    top        : 0;
+    color      : #CCCCCC;
+    background : #17141F none;
+    opacity    : 0.6;
+    width      : 33.3333333%;
+}
+
 #mine-stream {
     width         : 25%;
     height        : auto;
@@ -87,6 +97,16 @@
     height     : 100%;
     width      : 100%;
     min-height : 100%;
+}
+
+.stream-sub .member-title {
+    position   : absolute;
+    z-index    : 2;
+    top        : 0;
+    color      : #CCCCCC;
+    background : #17141F none;
+    opacity    : 0.6;
+    width      : 33.3333333%;
 }
 
 .stream-sub .stream-sub-controller {

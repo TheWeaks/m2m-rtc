@@ -88,9 +88,9 @@ class VideoService {
     static play(v) {
         v.play();
         let container = v.parentNode;
-        let videoCtrlBtn = container.childNodes[2].childNodes[0];
-        videoCtrlBtn.childNodes[0].style.display = 'none';
-        videoCtrlBtn.childNodes[1].style.display = 'inline';
+        let videoCtrlBtn = container.children[2].children[0];
+        videoCtrlBtn.children[0].style.display = 'none';
+        videoCtrlBtn.children[1].style.display = 'inline';
     }
 
     /**
@@ -100,9 +100,9 @@ class VideoService {
     static pause(v) {
         v.pause();
         let container = v.parentNode;
-        let videoCtrlBtn = container.childNodes[2].childNodes[0];
-        videoCtrlBtn.childNodes[0].style.display = 'inline';
-        videoCtrlBtn.childNodes[1].style.display = 'none';
+        let videoCtrlBtn = container.children[2].children[0];
+        videoCtrlBtn.children[0].style.display = 'inline';
+        videoCtrlBtn.children[1].style.display = 'none';
     }
 
     /**
@@ -112,9 +112,9 @@ class VideoService {
     static mute(v) {
         v.muted = true;
         let container = v.parentNode;
-        let audioCtrlBtn = container.childNodes[2].childNodes[1];
-        audioCtrlBtn.childNodes[0].style.display = 'none';
-        audioCtrlBtn.childNodes[1].style.display = 'inline';
+        let audioCtrlBtn = container.children[2].children[1];
+        audioCtrlBtn.children[0].style.display = 'none';
+        audioCtrlBtn.children[1].style.display = 'inline';
     }
 
     /**
@@ -124,9 +124,9 @@ class VideoService {
     static unmute(v) {
         v.muted = false;
         let container = v.parentNode;
-        let audioCtrlBtn = container.childNodes[2].childNodes[1];
-        audioCtrlBtn.childNodes[0].style.display = 'inline';
-        audioCtrlBtn.childNodes[1].style.display = 'none';
+        let audioCtrlBtn = container.children[2].children[1];
+        audioCtrlBtn.children[0].style.display = 'inline';
+        audioCtrlBtn.children[1].style.display = 'none';
     }
 
     /**
@@ -138,7 +138,7 @@ class VideoService {
         let pv = participant.videoElement;
         let mainVideo = document.getElementById('main-stream');
         let mainVideoContainer = mainVideo.parentNode;
-        mainVideoContainer.childNodes[0].innerText = participant.toString();
+        mainVideoContainer.children[0].innerText = participant.toString();
         mainVideo.src = pv.src;
         this.pause(pv);
         this.mute(pv);
@@ -153,7 +153,7 @@ class VideoService {
         let mainVideo = document.getElementById('main-stream');
         let mainVideoContainer = mainVideo.parentNode;
         mainVideo.src = '';
-        mainVideoContainer.childNodes[0].innerText = '';
+        mainVideoContainer.children[0].innerText = '';
         if (participant)
             this.showVideo(participant);
     }

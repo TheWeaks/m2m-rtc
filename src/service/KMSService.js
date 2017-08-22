@@ -74,6 +74,8 @@ export class KMSService extends EventEmitter {
                         case 'receiveTextMessage':
                             this.onReceiveTextMessage(message);
                             break;
+                        case 'fileUploaded':
+                            this.onReceiveFile(message);
                         // 无法识别返回信息的格式时
                         case 'unrecognizedMessage':
                         default:
@@ -130,16 +132,17 @@ export class KMSService extends EventEmitter {
 
     /**
      * room 内发送消息
-     * @param {{userId, message}} config
+     * @param {{userId, message}} msg
      */
-    sendTextMessage(config) {
-        config = Object.assign({type: 'sendMessage'}, config);
-        this.sendMessage(config);
+    sendTextMessage(msg) {
+        msg = Object.assign({type: 'sendMessage'}, msg);
+        this.sendMessage(msg);
 
     }
 
-    uploadFile() {
-
+    uploadSuccess(msg) {
+        msg = Object.assign({type: 'uploadSuccess'}, msg);
+        this.sendMessage(msg);
     }
 
     /**
@@ -327,6 +330,19 @@ export class KMSService extends EventEmitter {
             this.emit('receiveTextMessageError', new Error('participant not found'));
         } else {
             this.emit('receiveTextMessage', user, message.message);
+        }
+    }
+
+    /**
+     * 当接收到文件信息时
+     * @param {{type, userId, fileType, fileName, fileUrl}} message
+     */
+    onReceiveFile(message) {
+        let user = message.userId === this.me.userId ? this.me : this.queryParticipantById(message.userId);
+        if (!user) {
+            this.emite('receiveFileError', new Error('participant not found'));
+        } else {
+            this.emit('receiveFile', user, { fileType: fileType, fileName: fileName, fileUrl: fileUrl});
         }
     }
 

@@ -5,7 +5,7 @@ class FileService {
      * @param {string} url 文件服务器路径
      * @param {File} imgFile 图片文件
      * @param {HTMLButtonElement} processEle 显示进度的元素
-     * @return {Promise<string>} 返回结果promise
+     * @return {Promise<{fileName, fileType, fileUrl}>} 返回结果promise
      */
     static uploadFile(url, imgFile, processEle) {
         let formData = new FormData()
@@ -18,14 +18,14 @@ class FileService {
                 processEle.disabled = false;
                 processEle.style.background = '';
                 if (xhr.status === 200) {
-                    resolve(xhr.responseText)
+                    resolve(JSON.parse(xhr.responseText).result);
                 } else {
-                    reject(xhr.responseText)
+                    reject(xhr.responseText);
                 }
             }
             xhr.upload.onprogress = event => {
                 if (event.lengthComputable) {
-                    let complete = event.loaded / event.total * 100 | 0;
+                    let complete = event.loaded / event.total * 100;
                     processEle.style.backgroundSize = complete + '% 100%';
                 }
             }
