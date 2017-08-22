@@ -93,17 +93,13 @@
     position   : absolute;
     z-index    : 2;
     top        : 0;
+    color      : #CCCCCC;
     background : #17141F none;
     opacity    : 0.6;
     width      : 33.3333333%;
 }
 
-.stream-sub:hover > .stream-sub-controller {
-    display : inline;
-}
-
 .stream-sub-controller {
-    display    : none;
     position   : absolute;
     z-index    : 2;
     bottom     : 0;
