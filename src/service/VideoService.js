@@ -41,32 +41,25 @@ class VideoService {
         buttonContainer.className = 'stream-sub-controller';
         let videoCtrlBtn = document.createElement('button');
         videoCtrlBtn.innerHTML =
-            `<i class="fa fa-play" aria-hidden="true" style='display: none'>
-        </i><i class="fa fa-pause" aria-hidden="true" style='display: block'></i>`
+            `<i class="fa fa-play" aria-hidden="true" style='display: none;'>
+        </i><i class="fa fa-pause" aria-hidden="true" style='display: block;'></i>`
         videoCtrlBtn.onclick = event => {
             if (v.paused) {
-                v.play();
-                videoCtrlBtn.childNodes[0].style.display = 'none';
-                videoCtrlBtn.childNodes[1].style.display = 'block';
+                this.play(v);
             } else {
-                v.pause();
-                videoCtrlBtn.childNodes[0].style.display = 'block';
-                videoCtrlBtn.childNodes[1].style.display = 'none';
+                this.pause(v);
             }
         }
 
         let audioCtrlBtn = document.createElement('button');
         audioCtrlBtn.innerHTML =
-            `<i class="fa fa-microphone" aria-hidden="true" style='display: block'></i>
-        <i class="fa fa-microphone-slash" aria-hidden="true" style='display: none'></i>`
+            `<i class="fa fa-microphone" aria-hidden="true" style='display: block;'>
+            </i><i class="fa fa-microphone-slash" aria-hidden="true" style='display: none;'></i>`
         audioCtrlBtn.onclick = event => {
             if (v.muted) {
-                v.muted = false;
-                videoCtrlBtn.childNodes[0].style.display = 'block';
-                videoCtrlBtn.childNodes[1].style.display = 'none';
+                this.unmute(v);
             } else {
-                videoCtrlBtn.childNodes[0].style.display = 'none';
-                videoCtrlBtn.childNodes[1].style.display = 'block';
+                this.mute(v);
             }
         }
 
@@ -88,6 +81,54 @@ class VideoService {
     }
 
     /**
+     * 播放
+     * @param {HTMLVideoElement} v 视频元素
+     */
+    static play(v) {
+        v.play();
+        let container = v.parentNode;
+        let videoCtrlBtn = container.childNodes[2].childNodes[0];
+        videoCtrlBtn.childNodes[0].style.display = 'none';
+        videoCtrlBtn.childNodes[1].style.display = 'inline';
+    }
+
+    /**
+     * 暂停
+     * @param {HTMLVideoElement} v 视频元素
+     */
+    static pause(v) {
+        v.pause();
+        let container = v.parentNode;
+        let videoCtrlBtn = container.childNodes[2].childNodes[0];
+        videoCtrlBtn.childNodes[0].style.display = 'inline';
+        videoCtrlBtn.childNodes[1].style.display = 'none';
+    }
+
+    /**
+     * 静音
+     * @param {HTMLVideoElement} v 视频元素
+     */
+    static mute(v) {
+        v.muted = true;
+        let container = v.parentNode;
+        let audioCtrlBtn = container.childNodes[2].childNodes[1];
+        audioCtrlBtn.childNodes[0].style.display = 'none';
+        audioCtrlBtn.childNodes[1].style.display = 'inline';
+    }
+
+    /**
+     * 取消静音
+     * @param {HTMLVideoElement} v 视频元素
+     */
+    static unmute(v) {
+        v.muted = false;
+        let container = v.parentNode;
+        let audioCtrlBtn = container.childNodes[2].childNodes[1];
+        audioCtrlBtn.childNodes[0].style.display = 'inline';
+        audioCtrlBtn.childNodes[1].style.display = 'none';
+    }
+
+    /**
      * 上主视频区(上麦)
      * @param {Participant} participant 参与者 
      */
@@ -98,8 +139,8 @@ class VideoService {
         let mainVideoContainer = mainVideo.parentNode;
         mainVideoContainer.childNodes[0].innerText = participant.toString();
         mainVideo.src = pv.src;
-
-        pv.parentNode.childNodes[2].childNodes[0].click();
+        this.pause(pv);
+        this.mute(pv);
         pv.parentNode.style.display = 'none';
     }
 
@@ -123,7 +164,8 @@ class VideoService {
     static showVideo(participant) {
         let v = participant.videoElement;
         v.parentNode.style.display = 'block';
-        v.parentNode.childNodes[2].childNodes[0].click();
+        this.play(v);
+        this.unmute(v);
     }
 
     /**
