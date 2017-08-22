@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import $ from 'jquery'
 import KMSService from './service/KMSService'
 import MessageService from './service/MessageService'
@@ -9,19 +8,6 @@ import UploadService from './service/UploadService'
 const ms = MessageService;
 const vs = VideoService;
 const us = UploadService;
-=======
-import $ from 'jquery';
-import KMSService from './service/KMSService';
-import MessageService from './service/MessageService';
-import VideoService from './service/VideoService';
-
-let send_button             = $('#send-button');
-let clear_button            = $('#clear-button');
-let chat_textarea           = $('#chat-textarea');
-let chat_textarea_container = $('#chat-textarea-container');
-const ms                    = MessageService;
-const vs                    = VideoService;
->>>>>>> 49a39c06ae2a33a5dbc2c21021f825bef9cf0e35
 
 
 // let kmsService = new KMSService('wss://' + '45.76.6.255:8443' + '/groupcall');
