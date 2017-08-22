@@ -115,12 +115,12 @@
     bottom     : 0;
     background : transparent;
     width      : 33.33%;
-    transform: translateY(100%);
-    transition: transform .3s ease-in-out;
+    transform  : translateY(100%);
+    transition : transform .3s ease-in-out;
 }
 
 .stream-sub:hover .stream-sub-controller {
-    transform: translateY(0);
+    transform : translateY(0);
 }
 
 .stream-sub-controller > button {
@@ -383,6 +383,17 @@
     margin           : 0 auto 5px 5px;
     border-radius    : 10px;
 
+}
+
+.chat-line-right > p > a {
+    color      : #696969;
+    display    : inline-block;
+    font-size  : medium;
+    text-align : center;
+}
+
+.chat-line-right > p > a > i {
+    font-size : x-large;
 }
 
 .time-divider:before, .time-divider:after, .chat-line-left:before, .chat-line-left:after, .chat-line-right:after, .chat-line-right:before {
