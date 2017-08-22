@@ -386,10 +386,12 @@
 }
 
 .chat-line-right > p > a {
-    color      : #696969;
-    display    : inline-block;
-    font-size  : medium;
-    text-align : center;
+    color           : #696969;
+    display         : inline-block;
+    font-size       : medium;
+    text-align      : center;
+    text-decoration : none;
+    line-height     : 1.71;
 }
 
 .chat-line-right > p > a > i {
