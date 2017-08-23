@@ -2,13 +2,15 @@ import $ from 'jquery'
 import KMSService from './service/KMSService'
 import MessageService from './service/MessageService'
 import VideoService from './service/VideoService'
-import FileService from './service/FileService'
+import HTTPService from './service/HTTPService'
 
 
 const ms = MessageService;
 const vs = VideoService;
-const fs = FileService;
+const hs = HTTPService;
 
+let modelContainer = $('.model-container');
+let model = modelContainer.children('.model-body');
 
 // let kmsService = new KMSService('wss://' + '45.76.6.255:8443' + '/groupcall');
 let kmsService = new KMSService('wss://' + '192.168.22.145:8443' + '/groupcall');
@@ -31,9 +33,10 @@ kmsService.on('unrecognizedMessageError', error => {
 });
 
 kmsService.on('youJoinRoom', otherParticipants => {
+    modelContainer.hide();
     ms.roomSay('欢迎加入房间');
     let pCount = otherParticipants.length;
-    let msg    = `当前在线${pCount}人`;
+    let msg = `当前在线${pCount}人`;
     if (pCount == 0) {
         vs.expandYourself(kmsService.me);
     } else {
@@ -114,12 +117,12 @@ kmsService.on('receiveTextMessageError', error => {
 });
 
 // 接收到文件消息时
-kmsService.on('receiveFile', (user, fileInfo) => {
+kmsService.on('receiveFile', (fileInfo, user) => {
     ms.checkTime();
     if (user === kmsService.me) {
         ms.iSendFile(fileInfo);
     } else {
-        ms.otherSendFile(msg, fileInfo);
+        ms.otherSendFile(fileInfo, user);
     }
 });
 
@@ -138,11 +141,30 @@ kmsService.on('unloadPage', event => {
     }
 });
 
+//===================================
+//  开始连接
+//===================================
+
+model.html('连接至服务器。。。');
 kmsService.connect()
-    .then(kms => {
-        kms.join({ userId: Math.round(Math.random() * 1000) });
+    .then(() => {
+        let searchs = hs.getSearch()
+        kmsService.me.userId = +searchs.uid;
+        model.html(`连接至房间 ${searchs.rid}。。。`);
+        return hs.getRoom(searchs.rid, searchs.uid);
+    })
+    .then(val => {
+        let meIndex = val.participants.findIndex(p => p.userId === kmsService.me.userId);
+        let me = val.participants[meIndex];
+        kmsService.me.prefix = me.prefix;
+        kmsService.me.suffix = me.suffix;
+
+        kmsService.join({ userId: kmsService.me.userId, room: val.rid });
     }).catch(error => {
-        console.error(error);
+        if (error.status === -1) {
+            model.html('失败：' + status.message);
+        }
+        model.html('失败：' + error)
     })
 
 
@@ -174,8 +196,8 @@ chat_textarea_container.submit(e => {
     let text = e.target.chatText.value;
     if (text) {
         kmsService.sendTextMessage({
-                                       message: text
-                                   });
+            message: text
+        });
         chat_textarea.val('');
     }
 });
@@ -190,47 +212,51 @@ clear_button.click(e => {
 
 
 //===================================
-//  图片／文件发送事件监听
+//  图片／文件 显示／发送事件监听
 //===================================
 let imageButton = $('#button-chat-image');
 let fileButton = $('#button-chat-file');
 let fileInput = $('#input-chat-file');
 let imageInput = $('#input-chat-image');
+let fileHistoryButton = $('#button-file-history');
 
 imageInput.change(event => {
-    fs.uploadFile(fs.IMG_SERVER, event.target.files[0], imageButton.get(0))
-      .then(fileInfo => {
-        kmsService.uploadSuccess(fileInfo);
-      })
-      .catch(error => {
-          alert(`上传失败：\n${error.stack}`);
-      })
+    if (new RegExp(ms.FILE_TYPE_REGEX.IMAGE).test(event.target.files[0].type)) {
+        hs.uploadFile(hs.FILE_HOST, event.target.files[0], imageButton.get(0))
+            .then(fileInfo => {
+                kmsService.uploadSuccess(fileInfo);
+            })
+            .catch(error => {
+                alert(`上传失败：\n${error}`);
+            })
+    } else {
+        alert('格式不正确');
+    }
 })
-fileInput.change(event => {
-    fs.uploadFile(fs.FILE_SERVER, event.target.files[0], imageButton.get(0))
-      .then(fileInfo => {
-        kmsService.uploadSuccess(fileInfo);
-      })
-      .catch(error => {
-          alert(`上传失败：\n${error.stack}`);
-      })
-})
-// imageButton.click(() => imageInput.click());
-// fileButton.click(() => fileInput.click());
-imageButton.click(() => {
-    kmsService.emit('receiveFile', kmsService.me, {
-        fileName: 'QQ截图20150615134855.png',
-        fileType: 'image/png',
-        fileUrl: 'http://localhost:3000/img/QQ截图20150615134855.png'
-    });
-});
 
-fileButton.click(() => {
-    kmsService.emit('receiveFile', kmsService.me, {
-        fileName: '违纪检查模板.docx',
-        fileType: 'vnd.openxmlformats-officedocument.wordprocessingml.document',
-        fileUrl: 'http://localhost:3000/file/违纪检查模板.docx'
-    });
+fileInput.change(event => {
+    if (!new RegExp(ms.FILE_TYPE_REGEX.IMAGE).test(event.target.files[0].type)) {
+        hs.uploadFile(hs.FILE_HOST, event.target.files[0], imageButton.get(0))
+            .then(fileInfo => {
+                kmsService.uploadSuccess(fileInfo);
+            })
+            .catch(error => {
+                alert(`上传失败：\n${error.stack}`);
+            })
+    } else {
+        alert('请使用上传图片按钮上传图片');
+    }
+})
+
+imageButton.click(() => imageInput.click());
+fileButton.click(() => fileInput.click());
+
+fileHistoryButton.click(function () {
+    if ($('.file-history').css('display') === 'none') {
+        ms.getAndshowFilehistory(kmsService.room, this, '.file-history');
+    } else {
+        $('.file-history').hide();
+    }
 })
 
 

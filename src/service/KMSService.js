@@ -12,11 +12,11 @@ export class KMSService extends EventEmitter {
      */
     constructor(url) {
         super();
-        this.me           = new Participant();
+        this.me = new Participant();
         this.participants = new Array();
-        this.room         = 123;
-        this.ws           = null;
-        this.serverUrl    = url;
+        this.room = 123;
+        this.ws = null;
+        this.serverUrl = url;
     }
 
     /**
@@ -25,9 +25,9 @@ export class KMSService extends EventEmitter {
      */
     connect() {
         let promise = new Promise((resolve, reject) => {
-            this.ws        = new WebSocket(this.serverUrl);
+            this.ws = new WebSocket(this.serverUrl);
             this.ws.onopen = () => {
-                
+
                 this.ws.onmessage = messageEvent => {
                     let message = JSON.parse(messageEvent.data);
                     console.info('Received message:\n' + JSON.stringify(message));
@@ -87,17 +87,17 @@ export class KMSService extends EventEmitter {
                 resolve(this);
             };
 
-            this.ws.onerror       = event => {
+            this.ws.onerror = event => {
                 this.emit('connectError', event);
                 reject(event);
             };
-            this.ws.onclose       = closeEvent => {
+            this.ws.onclose = closeEvent => {
                 console.log(closeEvent);
             };
             window.onbeforeunload = event => {
                 this.emit('unloadPage', event);
             };
-            window.onunload       = event => {
+            window.onunload = event => {
                 this.emit('unloadPage', event);
             };
         });
@@ -120,14 +120,14 @@ export class KMSService extends EventEmitter {
      * @param {{room, userId, (pw)}} config 请求信息，结构：{id: 'join, room}  不填 默认加入123房间
      */
     join(config) {
-        config         = Object.assign({type: 'join', room: this.room}, config);
+        config = Object.assign({ type: 'join', room: this.room }, config);
         this.me.userId = config.userId;
-        this.room      = config.room;
+        this.room = config.room;
         this.sendMessage(config);
     }
 
     leave() {
-        this.sendMessage({type: 'leave'});
+        this.sendMessage({ type: 'leave' });
     }
 
     /**
@@ -135,13 +135,14 @@ export class KMSService extends EventEmitter {
      * @param {{userId, message}} msg
      */
     sendTextMessage(msg) {
-        msg = Object.assign({type: 'sendMessage'}, msg);
+        msg = Object.assign({ type: 'sendMessage' }, msg);
         this.sendMessage(msg);
 
     }
 
     uploadSuccess(msg) {
-        msg = Object.assign({type: 'uploadSuccess'}, msg);
+        msg = Object.assign({ type: 'uploadSuccess' }, msg);
+        console.log(msg);
         this.sendMessage(msg);
     }
 
@@ -151,14 +152,14 @@ export class KMSService extends EventEmitter {
      */
     onExistingParticipants(message) {
         // 获取显示自己视频画面的
-        let videoElement     = document.getElementById('mine-stream');
+        let videoElement = document.getElementById('mine-stream');
         this.me.videoElement = videoElement;
 
         let constraints = {
             audio: true,
             video: {
                 mandatory: {
-                    maxWidth    : 480,
+                    maxWidth: 480,
                     maxFrameRate: 30,
                     minFrameRate: 15
                 }
@@ -166,18 +167,18 @@ export class KMSService extends EventEmitter {
         };
 
         let myOptions = {
-            localVideo      : this.me.videoElement,
+            localVideo: this.me.videoElement,
             mediaConstraints: constraints,
-            onicecandidate  : candidate => {
+            onicecandidate: candidate => {
                 let msg = {
-                    type     : 'onIceCandidate',
-                    userId   : this.me.userId,
+                    type: 'onIceCandidate',
+                    userId: this.me.userId,
                     candidate: candidate
                 };
                 this.sendMessage(msg);
             }
         };
-        let that      = this;
+        let that = this;
 
         this.me.rtcPeer = new WebRtcPeer.WebRtcPeerSendonly(myOptions, function (error) {
             if (error) {
@@ -189,8 +190,8 @@ export class KMSService extends EventEmitter {
                     this.emit('offerError', error);
                 }
                 let msg = {
-                    type    : 'receiveVideoFrom',
-                    userId  : that.me.userId,
+                    type: 'receiveVideoFrom',
+                    userId: that.me.userId,
                     sdpOffer: sdpOffer
                 };
                 that.sendMessage(msg);
@@ -212,26 +213,26 @@ export class KMSService extends EventEmitter {
      * @return {Participant} 当前参与者对象
      */
     receiveVideo(p) {
-        let part          = new Participant();
-        part.userId       = p.userId;
-        part.name         = p.name;
-        part.prefix       = p.prefix;
-        part.suffix       = p.suffix;
+        let part = new Participant();
+        part.userId = p.userId;
+        part.name = p.name;
+        part.prefix = p.prefix;
+        part.suffix = p.suffix;
         part.videoElement = document.createElement('video');
         this.participants.push(part);
         let myOptions = {
-            remoteVideo   : part.videoElement,
+            remoteVideo: part.videoElement,
             onicecandidate: candidate => {
                 let msg = {
-                    type     : 'onIceCandidate',
-                    userId   : part.userId,
+                    type: 'onIceCandidate',
+                    userId: part.userId,
                     candidate: candidate
                 };
                 this.sendMessage(msg);
             }
         };
-        let that      = this;
-        part.rtcPeer  = new WebRtcPeer.WebRtcPeerRecvonly(myOptions, function (error) {
+        let that = this;
+        part.rtcPeer = new WebRtcPeer.WebRtcPeerRecvonly(myOptions, function (error) {
             if (error) {
                 this.emit('createPeerConnectionError', error);
                 return;
@@ -242,8 +243,8 @@ export class KMSService extends EventEmitter {
                     return;
                 }
                 let msg = {
-                    type    : "receiveVideoFrom",
-                    userId  : part.userId,
+                    type: "receiveVideoFrom",
+                    userId: part.userId,
                     sdpOffer: sdpOffer
                 };
                 that.sendMessage(msg);
@@ -342,7 +343,7 @@ export class KMSService extends EventEmitter {
         if (!user) {
             this.emite('receiveFileError', new Error('participant not found'));
         } else {
-            this.emit('receiveFile', user, { fileType: fileType, fileName: fileName, fileUrl: fileUrl});
+            this.emit('receiveFile', message, user);
         }
     }
 

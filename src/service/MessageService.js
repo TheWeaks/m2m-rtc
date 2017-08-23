@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import HTTPService from './HTTPService'
+const hs = HTTPService;
 
 class MessageService {
 
@@ -53,16 +55,7 @@ class MessageService {
             </li>
             `)
         else {
-            let icon = '';
-            for (let key in this.FILE_TYPE_REGEX) {
-                if (new RegExp(this.FILE_TYPE_REGEX[key]).test(fileInfo.fileType)) {
-                    icon = this.FILE_TYPE_ICON[key];
-                    break;
-                }
-            }
-            if (!icon) {
-                icon = this.FILE_TYPE_ICON.UNKNOW;
-            }
+            let icon = this.getFileIcon(fileInfo.fileType);
             $("#line-end").before(`
             <li class='chat-line-${className}'>
                 <div class="line-user-name-${className}">${participant ? participant.toString() : '你'}</div>
@@ -77,6 +70,53 @@ class MessageService {
         <li class='room-status'><p>${msg}</p></li>
         `);
         this.toBottom();
+    }
+
+    static getAndshowFilehistory(room, processEle, listEle) {
+        let $processEle = $(processEle);
+        let origContent = $processEle.html();
+        let $listEle = $(listEle);
+
+        $processEle.html('加载中。。。');
+        $processEle.attr('disable', true);
+        $listEle.hide();
+        $listEle.children('ul').html('');
+        hs.getFileHistory(room)
+            .then(fileList => {
+                for (let file of fileList) {
+                    $listEle.children('ul').append(`
+                        <li>
+                            <div class="file-history-icon">${this.getFileIcon(file.fileType)}</div>
+                            <div class="file-history-title">
+                            <p><a href="${file.fileUrl}">${file.fileName}</a></p>
+                            </div>
+                        </li>
+                    `);
+                }
+            })
+            .then(() => {
+                $processEle.html(origContent);
+                $processEle.attr('disable', false);
+                $listEle.show();
+            })
+            .catch(() => {
+                $processEle.html('出现错误，请重试');
+                setTimeout(() => $processEle.html(origContent), 1000);                
+            })
+    }
+
+    static getFileIcon(fileType) {
+        let icon = '';
+        for (let key in this.FILE_TYPE_REGEX) {
+            if (new RegExp(this.FILE_TYPE_REGEX[key]).test(fileType)) {
+                icon = this.FILE_TYPE_ICON[key];
+                break;
+            }
+        }
+        if (!icon) {
+            icon = this.FILE_TYPE_ICON.UNKNOW;
+        }
+        return icon;
     }
 
     static checkTime() {
@@ -122,13 +162,13 @@ MessageService.FILE_TYPE_REGEX = {
 }
 
 MessageService.FILE_TYPE_ICON = {
-    WORD: `<i style="font-size: 50px" class="fa fa-file-word-o" aria-hidden="true"></i>`,
-    EXCEL: `<i style="font-size: 50px"  class="fa fa-file-excel-o" aria-hidden="true"></i>`,
-    PDF: `<i style="font-size: 50px"  class="fa fa-file-pdf-o" aria-hidden="true"></i>`,
-    ZIP: `<i style="font-size: 50px"  class="fa fa-file-archive-o" aria-hidden="true"></i>`,
-    AUDIO: `<i style="font-size: 50px"  class="fa fa-file-audio-o" aria-hidden="true"></i>`,
-    VIDEO: `<i style="font-size: 50px"  class="fa fa-file-video-o" aria-hidden="true"></i>`,
-    UNKNOW: `<i style="font-size: 50px" class="fa fa-file" aria-hidden="true"></i>`
+    WORD: `<i class="fa fa-file-word-o" aria-hidden="true"></i>`,
+    EXCEL: `<i class="fa fa-file-excel-o" aria-hidden="true"></i>`,
+    PDF: `<i class="fa fa-file-pdf-o" aria-hidden="true"></i>`,
+    ZIP: `<i class="fa fa-file-archive-o" aria-hidden="true"></i>`,
+    AUDIO: `<i class="fa fa-file-audio-o" aria-hidden="true"></i>`,
+    VIDEO: `<i class="fa fa-file-video-o" aria-hidden="true"></i>`,
+    UNKNOW: `<i class="fa fa-file" aria-hidden="true"></i>`
 }
 
 

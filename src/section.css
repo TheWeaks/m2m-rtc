@@ -116,7 +116,7 @@
     background : transparent;
     width      : 33.33%;
     transform  : translateY(100%);
-    transition : transform .3s ease-in-out;
+    transition : transform .1s ease-in-out;
 }
 
 .stream-sub:hover .stream-sub-controller {
@@ -276,8 +276,13 @@
     font-size  : 40px;
     width      : 20%;
     height     : 60px;
+    line-height: 60px;
     text-align : center;
     outline    : 1px solid #CCCCCC;
+}
+
+.file-history-icon > .fa {
+    line-height: inherit;
 }
 
 .file-history-title {
@@ -286,10 +291,17 @@
     width    : 80%;
     height   : 60px;
     color    : #A0A0A0;
+    overflow: scroll;
 }
 
 .file-history-title > p {
-    padding-left : 10px;
+    padding : 0 10px;
+} 
+
+.file-history-title > p > a {
+    color: #A0A0A0;
+    text-decoration : none;
+    vertical-align: middle
 }
 
 .chat-lines {
@@ -315,10 +327,11 @@
     max-width : 100%;
 }
 
-.line-user-name {
-    font-size : 15px;
-    color     : #717171;
-    margin    : 5px auto 3px 8px;
+.line-user-name-left {
+    text-align : left;
+    font-size  : 15px;
+    color      : #717171;
+    margin     : 5px 5px 3px auto;
 }
 
 .line-user-name-right {
@@ -385,6 +398,19 @@
 
 }
 
+.chat-line-left > p > a {
+    color           : #FFFFFF;
+    display         : inline-block;
+    font-size       : medium;
+    text-align      : center;
+    text-decoration : none;
+    line-height     : 1.71;
+}
+
+.chat-line-left > p > a > i {
+    font-size : 50px;
+}
+
 .chat-line-right > p > a {
     color           : #696969;
     display         : inline-block;
@@ -395,7 +421,7 @@
 }
 
 .chat-line-right > p > a > i {
-    font-size : x-large;
+    font-size : 50px;
 }
 
 .time-divider:before, .time-divider:after, .chat-line-left:before, .chat-line-left:after, .chat-line-right:after, .chat-line-right:before {
