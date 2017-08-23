@@ -45,7 +45,7 @@ class MessageService {
     }
 
     static sendFile(className, fileInfo, participant) {
-        if (new RegExp(this.FILE_TYPE_REGEX.IMAGE).exec(fileInfo.fileType))
+        if (new RegExp(this.FILE_TYPE_REGEX.IMAGE).test(fileInfo.fileType))
             $("#line-end").before(`
             <li class="chat-line-${className}">
                 <div class="line-user-name-${className}">${participant ? participant.toString() : '你'}</div>
@@ -55,7 +55,7 @@ class MessageService {
         else {
             let icon = '';
             for (let key in this.FILE_TYPE_REGEX) {
-                if (new RegExp(this.FILE_TYPE_REGEX[key]).exec(fileInfo.fileType)) {
+                if (new RegExp(this.FILE_TYPE_REGEX[key]).test(fileInfo.fileType)) {
                     icon = this.FILE_TYPE_ICON[key];
                     break;
                 }
@@ -113,23 +113,21 @@ class MessageService {
 MessageService.lastMessageTime = new Date();
 MessageService.FILE_TYPE_REGEX = {
     IMAGE: /image\/\w+/,
-    DOCUMENT: /vnd\.openxmlformats-officedocument\.wordprocessingml\.document/,
-    WORD: /application\/msword/,
+    WORD: /vnd\.openxmlformats-officedocument\.wordprocessingml\.document|application\/msword/,
     EXCEL: /application\/vnd\.ms-excel/,
     PDF: /application\/pdf/,
-    ZIP: /application\/zip/,
+    ZIP: /application\/zip|application\/x-rar-compressed|application\/octet-stream/,
     AUDIO: /audio\/\w+/,
     VIDEO: /video\/\w+/
 }
+
 MessageService.FILE_TYPE_ICON = {
-    IMAGE: `<i style="font-size: 50px" class="fa fa-file-word-o" aria-hidden="true"></i>`,
-    DOCUMENT: `<i style="font-size: 50px"  class="fa fa-file-excel-o" aria-hidden="true"></i>`,
-    WORD: `<i style="font-size: 50px"  class="fa fa-file-excel-o" aria-hidden="true"></i>`,
-    EXCEL: `<i style="font-size: 50px"  class="fa fa-file-pdf-o" aria-hidden="true"></i>`,
-    PDF: `<i style="font-size: 50px"  class="fa fa-file-archive-o" aria-hidden="true"></i>`,
-    ZIP: `<i style="font-size: 50px"  class="fa fa-file-audio-o" aria-hidden="true"></i>`,
-    AUDIO: `<i style="font-size: 50px"  class="fa fa-file-video-o" aria-hidden="true"></i>`,
-    VIDEO: `<i style="font-size: 50px" class="fa fa-file" aria-hidden="true"></i>`,
+    WORD: `<i style="font-size: 50px" class="fa fa-file-word-o" aria-hidden="true"></i>`,
+    EXCEL: `<i style="font-size: 50px"  class="fa fa-file-excel-o" aria-hidden="true"></i>`,
+    PDF: `<i style="font-size: 50px"  class="fa fa-file-pdf-o" aria-hidden="true"></i>`,
+    ZIP: `<i style="font-size: 50px"  class="fa fa-file-archive-o" aria-hidden="true"></i>`,
+    AUDIO: `<i style="font-size: 50px"  class="fa fa-file-audio-o" aria-hidden="true"></i>`,
+    VIDEO: `<i style="font-size: 50px"  class="fa fa-file-video-o" aria-hidden="true"></i>`,
     UNKNOW: `<i style="font-size: 50px" class="fa fa-file" aria-hidden="true"></i>`
 }
 
